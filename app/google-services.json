@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "152558227040",
+    "project_id": "covatech-9a79f",
+    "storage_bucket": "covatech-9a79f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:152558227040:android:b5affe5de59211c298bd05",
+        "android_client_info": {
+          "package_name": "com.ugm.covatech"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "152558227040-6vv9g21njbqatef4jvc00viikq9v21t0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVbkuodcXwF4zRqB56VtpjQrPMkXso_tw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "152558227040-6vv9g21njbqatef4jvc00viikq9v21t0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
