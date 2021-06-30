@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorPrimaryDark">#694CF3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="colorBackground">#F8F8FC</color>
     <color name="colorBlue">#16056B</color>
     <color name="violetPlain">#6F7FAF</color>
     <color name="boxViolet">#6F50FF</color>
     <color name="whitePlain">#FFF5F5</color>
+    <color name="BottomNavBackground">#FFFFFF</color>
+
+
 </resources>
