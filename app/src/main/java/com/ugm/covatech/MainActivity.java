@@ -1,5 +1,7 @@
 package com.ugm.covatech;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -19,6 +21,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+
+    public void setFasilitas(View view){
+        Intent nextActivity =  new Intent(this, FasilitasKesehatan.class);
+//        nextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(nextActivity, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+//        overridePendingTransition(0,0);
     }
     
 }
