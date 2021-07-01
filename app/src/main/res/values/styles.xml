@@ -21,6 +21,8 @@
 
     </style>
 
-
+    <style name="AppSearchView" parent="Widget.AppCompat.SearchView" >
+        <item name="android:textSize">60sp</item>
+    </style>
 
 </resources>
