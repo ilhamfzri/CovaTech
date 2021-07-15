@@ -40,7 +40,7 @@ public class AdapterFasilitasKesehatan extends RecyclerView.Adapter<AdapterFasil
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.locationName.setText(data1[position]);
-        holder.locationDistance.setText(data2[position]);
+        holder.locationDistance.setText(data2[position]+" km");
     }
 
     @Override
