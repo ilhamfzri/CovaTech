@@ -5,20 +5,125 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.zxing.WriterException;
+
+import androidmads.library.qrgenearator.QRGContents;
+import androidmads.library.qrgenearator.QRGEncoder;
 
 public class profile extends AppCompatActivity {
+    FirebaseAuth fAuth;
+    FirebaseFirestore db;
+    Bitmap bitmap;
+    QRGEncoder qrgEncoder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         setupBottomNavigationView();
-        FirebaseAuth fAuth;
+        fAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        loadProfileCard();
+
+
+
+    }
+
+    public void loadProfileCard(){
+        final TextView mEmail, mName, mStatusCovid, mStatusVaksin;
+        mEmail = findViewById(R.id.textEmail);
+        mName = findViewById(R.id.textName);
+        mStatusCovid = findViewById(R.id.textStatusCovid);
+        mStatusVaksin = findViewById(R.id.textStatusVaksin);
+
+        //Get User ID
+        final String userID = fAuth.getUid();
+
+        // Get User Data
+        DocumentReference docRef = db.collection("users").document(userID);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d("User Data", document.getData().toString());
+
+                        mEmail.setText(document.getString("Email"));
+                        mName.setText(document.getString("Name"));
+
+                        //VaksinStatus = True => Sudah di Vaksin
+                        Color color;
+                        if(document.getBoolean("VaksinStatus") == true){
+                            mStatusVaksin.setText("Sudah");
+                            mStatusVaksin.setTextColor(Color.GREEN);
+                        }
+                        else{
+                            mStatusVaksin.setText("Belum");
+                            mStatusVaksin.setTextColor(Color.RED);
+                        }
+
+                        //CovidStatus = True => Positif
+                        if(document.getBoolean("CovidStatus") == true){
+                            mStatusCovid.setText("Negatif");
+                            mStatusCovid.setTextColor(Color.GREEN);
+                        }
+                        else{
+                            mStatusCovid.setText("Positif");
+                            mStatusCovid.setTextColor(Color.RED);
+                        }
+
+                        QRCodeGenerator(userID);
+
+
+
+                    } else {
+                        Log.d("Failed", "No such document");
+                    }
+                } else {
+
+                }
+            }
+        });
+
+    }
+
+    public void QRCodeGenerator(String UID){
+        ImageView qrImage = findViewById(R.id.qr_image);
+        Point point = new Point(30,30);
+        int width = point.x;
+        int height = point.y;
+        int dimen = width < height ? width : height;
+        dimen = dimen * 12;
+        qrgEncoder = new QRGEncoder(UID, null, QRGContents.Type.TEXT, dimen);
+        try {
+            // getting our qrcode in the form of bitmap.
+            bitmap = qrgEncoder.encodeAsBitmap();
+            // the bitmap is set inside our image
+            // view using .setimagebitmap method.
+            qrImage.setImageBitmap(bitmap);
+        } catch (WriterException e) {
+            // this method is called for
+            // exception handling.
+            Log.e("Tag", e.toString());
+        }
+
     }
 
     private void setupBottomNavigationView() {
