@@ -15,6 +15,7 @@ import android.os.Bundle;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -48,14 +49,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        setupBottomNavigationView();
         getLastLocation();
     }
 
-    public void setFasilitas(View view){
-        Intent nextActivity =  new Intent(this, FasilitasKesehatan.class);
-//        nextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        startActivity(nextActivity, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-//        overridePendingTransition(0,0);
+    private void setupBottomNavigationView() {
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.nav_view);
+        bottomNavigationView.setSelectedItemId(R.id.home);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.profil:
+                        Intent nextActivity =  new Intent(MainActivity.this, profile.class);
+                        nextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(nextActivity);
+                }
+                return true;
+            }
+        });
     }
 
     @SuppressLint("MissingPermission")
@@ -140,6 +153,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
 
 
 }
