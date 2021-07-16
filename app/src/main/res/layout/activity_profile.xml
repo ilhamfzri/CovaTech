@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@drawable/ic_backgroundtopbarprofile"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Profile"
+            android:textColor="#FFFDFD"
+            android:textSize="18dp"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="center">
+        </TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_box_white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_box_profile"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_marginRight="30dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="30dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/textEmail"
+                            android:layout_marginBottom="5dp"
+                            android:textColor="#FFFFFF"
+                            android:textSize="12dp"
+                            android:fontFamily="@font/poppins"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ilhamfazri3rd@gmail.com">
+                        </TextView>
+                        <TextView
+                            android:id="@+id/textName"
+                            android:textSize="18dp"
+                            android:textColor="#FFFFFF"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Ilham Fazri">
+                        </TextView>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:gravity="end"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:padding="5dp"
+                            android:background="#FFFFFF"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:src="@drawable/ic_dummybarcode">
+                        </ImageView>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginTop="40dp"
+                    android:layout_marginLeft="30dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/textStatusCovid"
+                        android:textSize="13dp"
+                        android:textColor="#FFFFFF"
+                        android:fontFamily="@font/poppins"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Status Covid-19 : ">
+                    </TextView>
+                    <TextView
+                        android:textSize="13dp"
+                        android:textColor="#FFFFFF"
+                        android:fontFamily="@font/poppins"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Negatif">
+                    </TextView>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginBottom="30dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:textSize="13dp"
+                        android:textColor="#FFFFFF"
+                        android:fontFamily="@font/poppins"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Status Vaksin : ">
+                    </TextView>
+                    <TextView
+                        android:id="@+id/textStatusVaksin"
+                        android:textSize="13dp"
+                        android:textColor="#FFFFFF"
+                        android:fontFamily="@font/poppins"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sudah">
+                    </TextView>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottom_app_bar"
+        style="@style/Widget.MaterialComponents.BottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:backgroundTint="#FFFFFF"
+        app:fabAlignmentMode="center" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="bottom"
+            android:background="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:menu="@menu/bottom_navigation_menu" />
+
+    </FrameLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:src="@drawable/ic_qr_code"
+        app:backgroundTint="@color/boxViolet"
+        app:fabSize="auto"
+        app:backgroundTintMode="add"
+        app:layout_anchor="@+id/bottom_app_bar"
+        app:layout_anchorGravity="center|top" />
+
+    <TextView
+        android:translationY='10dp'
+        android:textColor="@color/boxViolet"
+        android:text="Scan"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:backgroundTint="@color/boxViolet"
+        app:layout_anchor="@id/addFab"
+        app:layout_anchorGravity="center|bottom" />
+
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
