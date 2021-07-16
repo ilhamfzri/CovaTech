@@ -54,6 +54,11 @@ public class MainActivity extends AppCompatActivity {
         getLastLocation();
     }
 
+    public void setFasilitas(View view){
+        Intent nextActivity =  new Intent(MainActivity.this, FasilitasKesehatan.class);
+        nextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(nextActivity);
+    }
     private void setupBottomNavigationView() {
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.nav_view);
         bottomNavigationView.setSelectedItemId(R.id.home);
