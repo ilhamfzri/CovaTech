@@ -136,6 +136,7 @@
                     android:text="CovaMaps"/>
             </LinearLayout>
             <LinearLayout
+                android:onClick="setCovaTrace"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
