@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bottomSheetContainer"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/qr_big"
+        android:layout_marginBottom="35dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="35dp"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:background="@drawable/ic_tempatkesehatan">
+    </ImageView>
+
+</LinearLayout>

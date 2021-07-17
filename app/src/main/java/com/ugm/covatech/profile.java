@@ -10,13 +10,17 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -40,6 +44,7 @@ public class profile extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         loadProfileCard();
+
 
 
 
@@ -123,7 +128,43 @@ public class profile extends AppCompatActivity {
             // exception handling.
             Log.e("Tag", e.toString());
         }
+        final String userID = UID;
+        qrImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showQRCodeBottomSheet(userID);
+            }
+        });
 
+    }
+
+    public void showQRCodeBottomSheet(String UID){
+        ImageView qrImageBig;
+
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(profile.this, R.style.BottomSheetDialogTheme);
+        View bottomSheetView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.layout_bottom_sheet_qrcode, (LinearLayout) findViewById(R.id.bottomSheetContainer));
+
+        qrImageBig = bottomSheetView.findViewById(R.id.qr_big);
+
+        Point point = new Point(30,30);
+        int width = point.x;
+        int height = point.y;
+        int dimen = width < height ? width : height;
+        dimen = dimen * 12;
+        qrgEncoder = new QRGEncoder(UID, null, QRGContents.Type.TEXT, dimen);
+        try {
+            // getting our qrcode in the form of bitmap.
+            bitmap = qrgEncoder.encodeAsBitmap();
+            // the bitmap is set inside our image
+            // view using .setimagebitmap method.
+            qrImageBig.setImageBitmap(bitmap);
+            bottomSheetDialog.setContentView(bottomSheetView);
+            bottomSheetDialog.show();
+        } catch (WriterException e) {
+            // this method is called for
+            // exception handling.
+            Log.e("Tag", e.toString());
+        }
     }
 
     private void setupBottomNavigationView() {
