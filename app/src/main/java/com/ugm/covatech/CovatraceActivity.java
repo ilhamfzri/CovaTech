@@ -1,23 +1,37 @@
 package com.ugm.covatech;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 public class CovatraceActivity extends AppCompatActivity {
+
 
     RecyclerView recyclerView;
     AdapterCovaTrace adapterCovaTrace;
@@ -89,16 +103,80 @@ public class CovatraceActivity extends AppCompatActivity {
             paginationText.setText("Hari Ini");
         }
         else{
-
             paginationText.setText(df);
         }
+
+        updateRecycleView();
     }
 
-//    public void updateRecycleView(){
-//        final String[] stringLocationName = {"Universitas Gudang Mantu"};
-//        final String[] stringTimeRange = {"2.31 AM - 25.21 PM"};
-//        adapterCovaTrace = new AdapterCovaTrace(CovatraceActivity.this, )
-//    }
+    public void updateRecycleView(){
+        final ArrayList<String> arrayNamePlace = new ArrayList<String>();
+        final ArrayList<String> arrayRangeTime = new ArrayList<String>();
+
+        int mm = paginationCalendarOffset.get(Calendar.MONTH);
+        int dd = paginationCalendarOffset.get(Calendar.DAY_OF_MONTH);
+        int yy = paginationCalendarOffset.get(Calendar.YEAR);
+
+        Log.d("Month", Integer.toString(mm));
+        Log.d("Day", Integer.toString(dd));
+        Log.d("Year", Integer.toString(yy));
+
+        Calendar startCalendar = Calendar.getInstance();
+        Calendar endCalendar = Calendar.getInstance();
+        startCalendar.set(yy, mm, dd, 0, 0, 0);
+        endCalendar.set(yy, mm, dd+1, 0, 0, 0);
+
+        Date startDate = startCalendar.getTime();
+        Date endDate = endCalendar.getTime();
+        Log.d("Start Date", startDate.toString());
+        Log.d("End Date", endDate.toString());
+
+
+        String userUID = firebaseAuth.getUid();
+        db.collection("users").document(userUID).collection("tracking_data").whereLessThan("start_time", endDate).
+                whereGreaterThan("start_time", startDate).orderBy("start_time", Query.Direction.DESCENDING).get().
+                addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    for (QueryDocumentSnapshot document : task.getResult()){
+                        Log.d("Place", document.getString("place_name"));
+
+                        Timestamp startTime = document.getTimestamp("start_time");
+                        Timestamp endTime = document.getTimestamp("end_time");
+
+
+                        String pattern = "hh:mm a";
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+                        Date dateStartTime = startTime.toDate();
+                        Date dateEndTime = endTime.toDate();
+
+                        String sStartTime = simpleDateFormat.format(dateStartTime);
+                        String sEndTime = simpleDateFormat.format(dateEndTime);
+
+                        arrayNamePlace.add(document.getString("place_name"));
+                        arrayRangeTime.add(sStartTime+" - "+sEndTime);
+                    }
+                    final String[] stringLocationName = arrayNamePlace.toArray(new String[0]);
+                    final String[] stringTimeRange = arrayRangeTime.toArray(new String[0]);
+
+                    adapterCovaTrace = new AdapterCovaTrace(CovatraceActivity.this, stringLocationName, stringTimeRange, new AdapterCovaTrace.ClickListener() {
+                        @Override
+                        public void onPositionClicked(int position) {
+                            Log.d("Clicked", "Click");
+                        }
+                    });
+                    recyclerView = findViewById(R.id.recyclerView);
+                    recyclerView.setAdapter(adapterCovaTrace);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(CovatraceActivity.this));
+                }
+            }
+        });
+
+
+
+    }
 
 
 }

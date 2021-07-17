@@ -110,6 +110,7 @@ public class FasilitasKesehatan extends AppCompatActivity {
                             showBottomSheet(stringArrayName[position], stringArrayAddress[position], stringArrayDistance[position], stringArrayContact[position], stringArrayDirection[position]);
                         }
                     });
+
                     recyclerView.setAdapter(adapterFasilitasKesehatan);
                     recyclerView.setLayoutManager(new LinearLayoutManager(FasilitasKesehatan.this));
                 }
