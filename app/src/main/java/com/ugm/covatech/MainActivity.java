@@ -54,6 +54,12 @@ public class MainActivity extends AppCompatActivity {
         getLastLocation();
     }
 
+    public void setCovaTribute(View view){
+        Intent nextActivity =  new Intent(MainActivity.this, CovaTributeMain.class);
+        nextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(nextActivity);
+    }
+
     public void setFasilitas(View view){
         Intent nextActivity =  new Intent(MainActivity.this, FasilitasKesehatan.class);
         nextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
