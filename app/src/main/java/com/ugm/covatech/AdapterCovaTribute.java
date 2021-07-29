@@ -36,7 +36,6 @@ public class AdapterCovaTribute extends RecyclerView.Adapter<AdapterCovaTribute.
     }
 
     public interface ClickListener {
-
         void onPositionClicked(int position);
     }
 
