@@ -18,6 +18,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 import android.text.Layout;
@@ -32,6 +33,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -53,10 +55,15 @@ public class FasilitasKesehatan extends AppCompatActivity {
     final ArrayList<String> arrayDistance = new ArrayList<String>();
     final ArrayList<String> arrayContact = new ArrayList<String>();
     final ArrayList<String> arrayDirection = new ArrayList<String>();
+
+    Handler handler;
+
     RecyclerView recyclerView;
     AdapterFasilitasKesehatan adapterFasilitasKesehatan;
     FirebaseFirestore db;
     FusedLocationProviderClient mFusedLocationClient;
+    private ShimmerFrameLayout mShimmerViewContainer;
+
     int PERMISSION_ID = 44;
     double currentLatitude;
     double currentLongitude;
@@ -68,7 +75,26 @@ public class FasilitasKesehatan extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         recyclerView = findViewById(R.id.recyclerView);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        loadData();
+        mShimmerViewContainer = findViewById(R.id.shimmerFrameLayout);
+
+        handler=new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadData();
+            }
+        },1000);
+    }
+
+    @Override
+    protected void onResume() {
+        mShimmerViewContainer.startShimmerAnimation();
+        super.onResume();
+    }
+
+    protected void onPause() {
+        mShimmerViewContainer.stopShimmerAnimation();
+        super.onPause();
     }
 
     public void loadData() {
@@ -97,6 +123,8 @@ public class FasilitasKesehatan extends AppCompatActivity {
                         arrayDirection.add(document.getString("Direction"));
 
                     }
+                    mShimmerViewContainer.stopShimmerAnimation();
+                    mShimmerViewContainer.setVisibility(View.GONE);
 
                     final String[] stringArrayName = arrayName.toArray(new String[0]);
                     final String[] stringArrayDistance = arrayDistance.toArray(new String[0]);
