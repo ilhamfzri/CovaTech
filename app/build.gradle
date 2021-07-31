@@ -51,4 +51,6 @@ dependencies {
     implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.3'
     implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
+    def lottieVersion = "3.4.0"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
 }
