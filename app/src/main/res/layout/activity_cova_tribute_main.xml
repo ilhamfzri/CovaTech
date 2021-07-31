@@ -51,6 +51,7 @@
                     <include layout="@layout/row_adapter_covatribute_shimmer"></include>
                     <include layout="@layout/row_adapter_covatribute_shimmer"></include>
                     <include layout="@layout/row_adapter_covatribute_shimmer"></include>
+                    <include layout="@layout/layout_loading_location"></include>
                 </LinearLayout>
             </com.facebook.shimmer.ShimmerFrameLayout>
 
