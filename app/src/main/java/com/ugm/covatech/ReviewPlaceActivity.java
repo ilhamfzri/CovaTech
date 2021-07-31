@@ -3,20 +3,15 @@ package com.ugm.covatech;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Layout;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,14 +22,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.sql.Time;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -77,9 +70,9 @@ public class ReviewPlaceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_review_place);
 
         animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(),
-                R.anim.anim_in);
+                R.anim.fade_in);
         animFadeOut = AnimationUtils.loadAnimation(getApplicationContext(),
-                R.anim.anim_out);
+                R.anim.fade_out);
 
         loadingAnimation = findViewById(R.id.loadingAnimation);
         doneAnimation = findViewById(R.id.doneAnimation);
