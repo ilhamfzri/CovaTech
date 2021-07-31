@@ -14,10 +14,16 @@ import android.os.Bundle;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,6 +39,8 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -43,15 +51,22 @@ public class MainActivity extends AppCompatActivity {
     int PERMISSION_ID = 44;
     double currentLatitude;
     double currentLongitude;
+    String userFullName;
+
+    FirebaseAuth fAuth;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        db = FirebaseFirestore.getInstance();
+        fAuth = FirebaseAuth.getInstance();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         setupBottomNavigationView();
         getLastLocation();
+        getUserProfile();
     }
 
     public void setCovaTribute(View view){
@@ -169,6 +184,20 @@ public class MainActivity extends AppCompatActivity {
                 getLastLocation();
             }
         }
+    }
+
+    public void getUserProfile(){
+        final String userID = fAuth.getUid();
+        DocumentReference docRef = db.collection("users").document(userID);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    userFullName = document.getString("Name");
+                }
+            }
+        });
     }
 
 
