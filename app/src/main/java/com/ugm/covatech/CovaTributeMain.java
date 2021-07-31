@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -39,16 +40,25 @@ public class CovaTributeMain extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     Boolean loadLocationState = false;
     float place_rating = (float) 0.0;
+    String sUserFullname;
+    int i;
 
     final ArrayList<String> arrayNamePlace = new ArrayList<String>();
     final ArrayList<String> arrayPlaceID = new ArrayList<String>();
     final ArrayList<String> arrayAddress = new ArrayList<String>();
-    final ArrayList<Float> arrayRating = new ArrayList<Float>();
+    ArrayList<Float> arrayRating = new ArrayList<Float>();
+    ArrayList<Float> dump = new ArrayList<Float>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cova_tribute_main);
+
+        arrayRating.add((float) 0.0);
+        arrayRating.add((float) 0.0);
+        arrayRating.add((float) 0.0);
+
+        sUserFullname = getIntent().getStringExtra("user_fullname");
 
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -62,7 +72,6 @@ public class CovaTributeMain extends AppCompatActivity {
                 setViewLastLocation();
             }
         },1000);
-
 
     }
 
@@ -82,18 +91,15 @@ public class CovaTributeMain extends AppCompatActivity {
                         Timestamp endTime = document.getTimestamp("end_time");
 
 
-                        String pattern = "hh:mm a";
+                        String pattern = "d MMMM yyyy, HH:mm a";
                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
                         Date dateStartTime = startTime.toDate();
-                        Date dateEndTime = endTime.toDate();
-
                         String sStartTime = simpleDateFormat.format(dateStartTime);
-                        String sEndTime = simpleDateFormat.format(dateEndTime);
 
                         arrayPlaceID.add(document.getString("place_id"));
                         arrayNamePlace.add(document.getString("place_name"));
-                        arrayAddress.add(sStartTime + " - " + sEndTime);
+                        arrayAddress.add("Dikunjungi : " + sStartTime);
                     }
                 }
                 loadLocationState = true;
@@ -105,30 +111,32 @@ public class CovaTributeMain extends AppCompatActivity {
 
 
     public void getPlaceRating(){
-        for(int i=0; i<arrayPlaceID.size(); i++){
-            String place_id = arrayPlaceID.get(i);
+        for(i=0; i<arrayPlaceID.size(); i++){
+            final String place_id = arrayPlaceID.get(i);
             db.collection("location").document(place_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
+                    int index = i;
                     if(task.isSuccessful()){
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
-
+                            Log.d("Document ID", document.getId());
+                            Log.d("Index", Integer.toString(index));
                             Double total_star = document.getDouble("total_star");
                             Double total_user_review = document.getDouble("total_user_review");
                             if(total_star!=null && total_user_review!=null){
                                 place_rating = total_star.floatValue()/total_user_review.floatValue();
-                                arrayRating.add(place_rating);
+                                arrayRating.set(arrayPlaceID.indexOf(place_id), place_rating);
                             }
-                            else{
-                                arrayRating.add((float) 0.0);
-                            }
+                            Log.d("ArrayRating", arrayRating.toString() + dump.toString());
+                            dump.add((float) 0.0);
                         }
                         else{
-                            arrayRating.add((float) 0.0);
+                            arrayRating.set(index, (float) 0.0);
+                            dump.add((float) 0.0);
                         }
                     }
-                    if(arrayRating.size()==arrayPlaceID.size()){
+                    if(dump.size()==arrayPlaceID.size()){
                         setRecyclerView();
                     }
                 }
@@ -141,10 +149,19 @@ public class CovaTributeMain extends AppCompatActivity {
         final String[] stringAddress = arrayAddress.toArray(new String[0]);
         final Float[] floatRating = arrayRating.toArray(new Float[0]);
 
+
         adapterCovaTribute = new AdapterCovaTribute(CovaTributeMain.this, stringLocationName, stringAddress, floatRating, new AdapterCovaTribute.ClickListener() {
             @Override
             public void onPositionClicked(int position) {
-                Log.d("Clicked", "Click");
+                Log.d("Place ID Clicked", arrayPlaceID.get(position));
+                String place_id_next = arrayPlaceID.get(position);
+                String place_name_next = arrayNamePlace.get(position);
+
+                Intent reviewIntent = new Intent(CovaTributeMain.this, ReviewPlaceActivity.class);
+                reviewIntent.putExtra("place_name", place_name_next);
+                reviewIntent.putExtra("place_id", place_id_next);
+                reviewIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(reviewIntent);
             }
         });
 
