@@ -42,7 +42,7 @@ public class AdapterCovaTribute extends RecyclerView.Adapter<AdapterCovaTribute.
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.locationName.setText(data1[position]);
-        holder.locationAddress.setText(data2[position]+" km");
+        holder.locationAddress.setText(data2[position]);
         holder.ratingBar.setRating(data3[position]);
     }
 

@@ -48,6 +48,7 @@ public class profile extends AppCompatActivity {
 
 
 
+
     }
 
     public void loadProfileCard(){

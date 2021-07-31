@@ -68,6 +68,8 @@ public class FasilitasKesehatan extends AppCompatActivity {
     double currentLatitude;
     double currentLongitude;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
