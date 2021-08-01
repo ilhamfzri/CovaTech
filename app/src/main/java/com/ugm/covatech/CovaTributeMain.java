@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -43,6 +44,8 @@ public class CovaTributeMain extends AppCompatActivity {
     String sUserFullname;
     int i;
 
+    LinearLayout notAvailableLayout, availableLayout;
+
     final ArrayList<String> arrayNamePlace = new ArrayList<String>();
     final ArrayList<String> arrayPlaceID = new ArrayList<String>();
     final ArrayList<String> arrayAddress = new ArrayList<String>();
@@ -56,6 +59,12 @@ public class CovaTributeMain extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cova_tribute_main);
+
+        notAvailableLayout = findViewById(R.id.layoutNotAvailable);
+        availableLayout = findViewById(R.id.layoutAvailable);
+
+        availableLayout.setVisibility(View.VISIBLE);
+        notAvailableLayout.setVisibility(View.GONE);
 
         arrayRating.add((float) 0.0);
         arrayRating.add((float) 0.0);
@@ -111,7 +120,13 @@ public class CovaTributeMain extends AppCompatActivity {
                 }
                 loadLocationState = true;
                 Log.d("STATE", loadLocationState.toString());
-                getPlaceRating();
+                if(arrayPlaceID.size()>0){
+                    getPlaceRating();
+                }
+                else{
+                    notAvailableLayout.setVisibility(View.VISIBLE);
+                    availableLayout.setVisibility(View.GONE);
+                }
             }
         });
     }

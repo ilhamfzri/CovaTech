@@ -7,7 +7,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
         <LinearLayout
             android:background="#6045E2"
             android:orientation="horizontal"
@@ -33,8 +33,52 @@
                 android:layout_height="wrap_content"
                 android:text="CovaTribute" />
         </LinearLayout>
-
         <LinearLayout
+            android:id="@+id/layoutNotAvailable"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_marginTop="50dp"
+                android:layout_gravity="center"
+                android:id="@+id/doneAnimation"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                app:lottie_rawRes="@raw/no_places"
+                app:lottie_loop="true"
+                app:lottie_autoPlay="true"/>
+            <TextView
+                android:gravity="center"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:id="@+id/loadingStatus"
+                android:textColor="#6C4EF9"
+                android:fontFamily="@font/poppins_medium"
+                android:textSize="20dp"
+                android:layout_gravity="center"
+                android:text="Tidak Ditemukan Data :("
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+
+            <TextView
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:gravity="center"
+                android:id="@+id/textDescription"
+                android:textColor="#000000"
+                android:fontFamily="@font/poppins_light"
+                android:textSize="18dp"
+                android:layout_gravity="center"
+                android:text="Kamu mungkin telah memberikan ulasan pada tiga tempat terakhir yang dikunjungi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layoutAvailable"
             android:background="#FFFFFF"
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -52,6 +96,7 @@
                     <include layout="@layout/row_adapter_covatribute_shimmer"></include>
                     <include layout="@layout/row_adapter_covatribute_shimmer"></include>
                     <include layout="@layout/layout_loading_location"></include>
+
                 </LinearLayout>
             </com.facebook.shimmer.ShimmerFrameLayout>
 
