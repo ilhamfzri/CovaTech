@@ -7,11 +7,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
@@ -32,6 +37,7 @@ import java.util.Locale;
 
 public class CovatraceActivity extends AppCompatActivity {
 
+    private ShimmerFrameLayout mShimmerViewContainer;
 
     RecyclerView recyclerView;
     AdapterCovaTrace adapterCovaTrace;
@@ -42,6 +48,12 @@ public class CovatraceActivity extends AppCompatActivity {
     Integer dateOffset=0;
     Date paginationDate;
     Button paginationBefore, paginationAfter;
+    LinearLayout not_available_layout;
+
+    Animation animFadeIn, animFadeOut;
+
+    Handler handler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,10 +61,21 @@ public class CovatraceActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
 
+        animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.fade_in);
+        animFadeOut = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.fade_out);
+
+        not_available_layout = findViewById(R.id.not_available_layout);
+
+        mShimmerViewContainer = findViewById(R.id.shimmerFrameLayout);
+
+        handler=new Handler();
         //Get Current Calendar
         paginationCalendarCurrent = Calendar.getInstance();
 
         paginationAfter = findViewById(R.id.paginationAfter);
+        paginationAfter.setEnabled(false);
         paginationBefore = findViewById(R.id.paginationBefore);
         paginationText = findViewById(R.id.paginationText);
 
@@ -60,26 +83,60 @@ public class CovatraceActivity extends AppCompatActivity {
     }
 
     public void setPagination(){
-        updatePaginationBar();
+
+        not_available_layout.setVisibility(View.GONE);
+
+        mShimmerViewContainer.setVisibility(View.VISIBLE);
+        mShimmerViewContainer.startShimmerAnimation();
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                updatePaginationBar();
+            }
+        },1000);
+
         paginationAfter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                not_available_layout.clearAnimation();
+                not_available_layout.setVisibility(View.GONE);
+
+                mShimmerViewContainer.setVisibility(View.VISIBLE);
+                mShimmerViewContainer.startShimmerAnimation();
                 dateOffset = dateOffset + 1;
-                updatePaginationBar();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        updatePaginationBar();
+                    }
+                },1000);
+
             }
         });
 
         paginationBefore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                not_available_layout.clearAnimation();
+                not_available_layout.setVisibility(View.GONE);
+
+                mShimmerViewContainer.setVisibility(View.VISIBLE);
+                mShimmerViewContainer.startShimmerAnimation();
                 dateOffset = dateOffset - 1;
-                updatePaginationBar();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        updatePaginationBar();
+                    }
+                },1000);
             }
         });
     }
 
     @SuppressLint("SetTextI18n")
     public  void updatePaginationBar(){
+
         paginationCalendarOffset = Calendar.getInstance();
         paginationCalendarOffset.add(Calendar.DAY_OF_MONTH, dateOffset);
         paginationDate = paginationCalendarOffset.getTime();
@@ -161,15 +218,26 @@ public class CovatraceActivity extends AppCompatActivity {
                     final String[] stringLocationName = arrayNamePlace.toArray(new String[0]);
                     final String[] stringTimeRange = arrayRangeTime.toArray(new String[0]);
 
-                    adapterCovaTrace = new AdapterCovaTrace(CovatraceActivity.this, stringLocationName, stringTimeRange, new AdapterCovaTrace.ClickListener() {
-                        @Override
-                        public void onPositionClicked(int position) {
-                            Log.d("Clicked", "Click");
-                        }
-                    });
-                    recyclerView = findViewById(R.id.recyclerView);
-                    recyclerView.setAdapter(adapterCovaTrace);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(CovatraceActivity.this));
+                    if(arrayNamePlace.size()==0){
+                        not_available_layout.setVisibility(View.VISIBLE);
+                        not_available_layout.startAnimation(animFadeIn);
+                    }
+                    else{
+                        adapterCovaTrace = new AdapterCovaTrace(CovatraceActivity.this, stringLocationName, stringTimeRange, new AdapterCovaTrace.ClickListener() {
+                            @Override
+                            public void onPositionClicked(int position) {
+                                Log.d("Clicked", "Click");
+                            }
+                        });
+
+                        mShimmerViewContainer.setVisibility(View.GONE);
+                        mShimmerViewContainer.stopShimmerAnimation();
+
+                        recyclerView = findViewById(R.id.recyclerView);
+                        recyclerView.setAdapter(adapterCovaTrace);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(CovatraceActivity.this));
+
+                    }
                 }
             }
         });
