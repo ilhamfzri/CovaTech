@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:background="#6045E2"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textAlignment="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:textColor="#FFFFFF"
+                android:fontFamily="@font/poppins_semibold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lapor Hasil Test" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.shuhart.stepview.StepView
+                android:paddingBottom="15dp"
+                android:background="#6045E2"
+                android:id="@+id/step_view"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+
+                app:sv_selectedCircleColor="#FFFFFF"
+                app:sv_selectedTextColor="#FFFFFF"
+                app:sv_stepLineWidth="1dp"
+                app:sv_stepPadding="4dp"
+
+                app:sv_doneTextColor="#FFFFFF"
+
+                app:sv_nextTextColor="#C6C2C2"
+                app:sv_nextStepLineColor="#C6C2C2"
+
+                app:sv_doneCircleColor="#FFFFFF"
+                app:sv_doneStepLineColor="#FFFFFF"
+                app:sv_doneCircleRadius="12dp"
+
+                app:sv_selectedCircleRadius="12dp"
+                app:sv_selectedStepNumberColor="@color/colorPrimary"
+
+                app:sv_stepViewStyle="@style/StepView"
+                app:sv_doneStepMarkColor="#6045E2"
+                app:sv_stepNumberTextSize="12sp"
+                app:sv_animationType="Line"/>
+            <LinearLayout
+                android:id="@+id/layout_document"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_marginTop="25dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/ic_box_border"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_margin="20dp"
+                        android:src="@drawable/ic_illustrationlogin"
+                        android:layout_width="match_parent"
+                        android:id="@+id/document"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"/>
+                </LinearLayout>
+
+
+                <Button
+                    android:visibility="gone"
+                    android:textAllCaps="false"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/getFromGallery"
+                    android:textSize="13dp"
+                    android:layout_width="120dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/ic_button_costum_1"
+                    android:text="Dari Gallery"
+                    android:textColor="@color/whitePlain"
+                    style="?android:attr/borderlessButtonStyle">
+                </Button>
+                <Button
+                    android:id="@+id/take_photo"
+                    android:gravity="center"
+                    android:drawableTint="#FFFFFF"
+                    android:drawableTop="@drawable/ic_baseline_camera_alt_24"
+                    android:textAllCaps="false"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:textSize="13dp"
+                    android:layout_width="120dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/ic_button_costum_1"
+                    android:textColor="@color/whitePlain"
+                    style="?android:attr/borderlessButtonStyle">
+                </Button>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/layout_keterangan"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:hint="Nama Lengkap"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    app:startIconDrawable="@drawable/ic_baseline_assignment_ind_24"
+                    app:helperText="*Required"
+                    app:helperTextTextColor="#FF0000"
+                    app:startIconCheckable="true"
+                    android:layout_height="match_parent">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_nama_lengkap"
+                        android:textSize="13dp"
+                        android:drawablePadding="15dp"
+                        android:inputType="textPersonName"
+                        android:fontFamily="@font/poppins"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    </com.google.android.material.textfield.TextInputEditText>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:hint="Nomor Induk Kependudukan (NIK)"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    app:helperText="*Required"
+                    app:helperTextTextColor="#FF0000"
+                    app:counterEnabled="true"
+                    app:startIconDrawable="@drawable/ic_baseline_credit_card_24"
+                    app:counterMaxLength="16"
+                    app:startIconCheckable="true"
+                    android:layout_height="match_parent">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:maxLength="16"
+                        android:id="@+id/edittext_nik"
+                        android:textSize="13dp"
+                        android:inputType="number"
+                        android:drawablePadding="15dp"
+                        android:fontFamily="@font/poppins"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    </com.google.android.material.textfield.TextInputEditText>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:hint="Instansi Kesehatan"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    app:helperText="*Required, Contoh : RSUP Dr. Sardjito"
+                    app:helperTextTextColor="#FF0000"
+                    app:startIconDrawable="@drawable/ic_baseline_local_hospital_24"
+                    app:startIconCheckable="true"
+                    android:layout_height="match_parent">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edittext_tempat_test"
+                        android:textSize="13dp"
+                        android:inputType="textPersonName"
+                        android:drawablePadding="5dp"
+                        android:fontFamily="@font/poppins"
+                        android:layout_width="match_parent"
+                        android:imeOptions="actionDone"
+                        android:layout_height="wrap_content">
+                    </com.google.android.material.textfield.TextInputEditText>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:hint="Tanggal Pemeriksaan"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    app:helperText="*Required"
+                    app:helperTextTextColor="#FF0000"
+                    app:startIconDrawable="@drawable/ic_baseline_date_range_24"
+                    app:startIconCheckable="true"
+                    android:layout_height="match_parent">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:cursorVisible="false"
+                        android:id="@+id/edittext_tanggal_test"
+                        android:textSize="13dp"
+                        android:inputType="none"
+                        android:imeOptions="actionDone"
+                        android:drawablePadding="5dp"
+                        android:fontFamily="@font/poppins"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    </com.google.android.material.textfield.TextInputEditText>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:hint="Jenis Pemeriksaan"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    app:helperText="*Required"
+                    app:helperTextTextColor="#FF0000"
+                    app:startIconDrawable="@drawable/ic_baseline_science_24"
+                    app:startIconCheckable="true"
+                    android:layout_height="match_parent">
+                    <AutoCompleteTextView
+                        android:id="@+id/autoComplete_jenis_pemeriksaan"
+                        android:textSize="13dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:hint="Hasil Pemeriksaan"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    app:helperText="*Required"
+                    app:helperTextTextColor="#FF0000"
+                    app:startIconDrawable="@drawable/ic_baseline_assignment_24"
+                    app:startIconCheckable="true"
+                    android:layout_height="match_parent">
+                    <AutoCompleteTextView
+                        android:id="@+id/autoComplete_hasil_pemeriksaan"
+                        android:textSize="13dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:textAllCaps="false"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/button_next"
+                    android:textSize="13dp"
+                    android:layout_width="120dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/ic_button_costum_1"
+                    android:text="Selanjutnya"
+                    android:textColor="@color/whitePlain"
+                    style="?android:attr/borderlessButtonStyle">
+                </Button>
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
