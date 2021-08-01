@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,19 +36,28 @@ public class profile extends AppCompatActivity {
     FirebaseFirestore db;
     Bitmap bitmap;
     QRGEncoder qrgEncoder;
+    Button buttonLaporTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         setupBottomNavigationView();
+
         fAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        buttonLaporTest = findViewById(R.id.buttonLaporTest);
+
         loadProfileCard();
 
-
-
-
+        buttonLaporTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent laporTestIntent = new Intent(profile.this, UploadMedicalTestActivity.class);
+                laporTestIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(laporTestIntent);
+            }
+        });
 
     }
 
