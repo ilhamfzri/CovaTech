@@ -57,6 +57,7 @@
                             app:mrb_progressTint="#FABE52"
                             app:mrb_secondaryProgressTint="#CAC8D0"
                             app:mrb_progressBackgroundTint="#CAC8D0"
+                            android:isIndicator="true"
                             android:rating="3.5"
                             android:id="@+id/starBar"
                             android:layout_gravity="start"

@@ -3,6 +3,7 @@ package com.ugm.covatech;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -25,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -55,14 +57,13 @@ public class ReviewPlaceActivity extends AppCompatActivity {
     RadioButton rbFasilitasYes, rbFasilitasNo, rbSocialYes, rbSocialNo, rbMaskNo, rbMaskYes;
     MaterialRatingBar mRating;
     EditText editTextReview;
-    String sPlaceName, sPlaceID;
+    String sPlaceName, sPlaceID, sDocumentUID;
 
 
     Handler handler;
-
     FirebaseFirestore fStore;
-
     Animation animFadeIn, animFadeOut;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,8 @@ public class ReviewPlaceActivity extends AppCompatActivity {
         loadingAnimation = findViewById(R.id.loadingAnimation);
         doneAnimation = findViewById(R.id.doneAnimation);
 
+
+
         doneAnimation.setVisibility(View.GONE);
 
         loadingStatus = findViewById(R.id.loadingStatus);
@@ -87,6 +90,7 @@ public class ReviewPlaceActivity extends AppCompatActivity {
 
         doneButton = findViewById(R.id.button_home);
         doneButton.setVisibility(View.GONE);
+
 
         mainReview = findViewById(R.id.menu_review);
         loadingBox = findViewById(R.id.loading);
@@ -99,6 +103,7 @@ public class ReviewPlaceActivity extends AppCompatActivity {
 
         sPlaceName = getIntent().getStringExtra("place_name");
         sPlaceID = getIntent().getStringExtra("place_id");
+        sDocumentUID = getIntent().getStringExtra("document_uid");
 
         Log.d("Place ID", sPlaceID);
 
@@ -144,6 +149,12 @@ public class ReviewPlaceActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent covaTributeActivity = new Intent(ReviewPlaceActivity.this, CovaTributeMain.class);
+        covaTributeActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(covaTributeActivity);
+    }
 
     public boolean validationAnswer(){
 
@@ -290,7 +301,7 @@ public class ReviewPlaceActivity extends AppCompatActivity {
                             DocumentReference documentReferenceUlasan = fStore.collection("location").
                                     document(sPlaceID).collection("ulasan").document(collection_id);
 
-                            Map<String, Object> dataUlasan = new HashMap<>();
+                            final Map<String, Object> dataUlasan = new HashMap<>();
                             dataUlasan.put("user_name", userFullName);
                             dataUlasan.put("ulasan", valUlasan);
                             dataUlasan.put("date", Timestamp.now());
@@ -298,14 +309,33 @@ public class ReviewPlaceActivity extends AppCompatActivity {
                             documentReferenceUlasan.set(dataUlasan).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
-                                    Log.d("INFO", "Data Sucessfully Saved to Database");
-                                    loadingStatus.startAnimation(animFadeOut);
-                                    loadingStatus.setText("Success");
-                                    loadingStatus.startAnimation(animFadeIn);
-                                    loadingAnimation.setVisibility(View.GONE);
-                                    doneAnimation.setVisibility(View.VISIBLE);
-                                    loadingDescription.setVisibility(View.VISIBLE);
-                                    doneButton.setVisibility(View.VISIBLE);
+                                    DocumentReference documentReferenceUID = fStore.collection("users").
+                                            document(userID).collection("tracking_data").document(sDocumentUID);
+
+                                    Map<String, Object> dataUpdate = new HashMap<>();
+                                    dataUpdate.put("review_state", true);
+
+                                    documentReferenceUID.set(dataUpdate, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            Log.d("INFO", "Data Sucessfully Saved to Database");
+                                            loadingStatus.startAnimation(animFadeOut);
+                                            loadingStatus.setText("Success");
+                                            loadingStatus.startAnimation(animFadeIn);
+                                            loadingAnimation.setVisibility(View.GONE);
+                                            doneAnimation.setVisibility(View.VISIBLE);
+                                            loadingDescription.setVisibility(View.VISIBLE);
+                                            doneButton.setVisibility(View.VISIBLE);
+                                            doneButton.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    Intent homeActivity = new Intent(ReviewPlaceActivity.this, MainActivity.class);
+                                                    homeActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                                    startActivity(homeActivity);
+                                                }
+                                            });
+                                        }
+                                    });
                                 }
                             });
                         }
