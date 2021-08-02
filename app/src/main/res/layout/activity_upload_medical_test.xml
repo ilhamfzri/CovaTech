@@ -26,7 +26,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
             <com.shuhart.stepview.StepView
                 android:paddingBottom="15dp"
                 android:background="#6045E2"
@@ -58,15 +58,106 @@
                 app:sv_doneStepMarkColor="#6045E2"
                 app:sv_stepNumberTextSize="12sp"
                 app:sv_animationType="Line"/>
+
             <LinearLayout
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:id="@+id/loading"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_marginTop="50dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/loadingAnimation"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    app:lottie_speed="2"
+                    app:lottie_rawRes="@raw/loading"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"/>
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:visibility="gone"
+                    android:layout_marginTop="50dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/doneAnimation"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    app:lottie_rawRes="@raw/done"
+                    app:lottie_autoPlay="true"/>
+
+                <TextView
+                    android:id="@+id/loadingStatus"
+                    android:textColor="#6C4EF9"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textSize="20dp"
+                    android:layout_gravity="center"
+                    android:text="Success"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                </TextView>
+
+                <TextView
+                    android:id="@+id/textDescription"
+                    android:textColor="#000000"
+                    android:fontFamily="@font/poppins"
+                    android:textSize="18dp"
+                    android:layout_gravity="center"
+                    android:text="Terimakasih atas laporan anda"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                </TextView>
+
+                <TextView
+                    android:layout_marginRight="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:id="@+id/textDescriptionLong"
+                    android:gravity="center"
+                    android:textColor="#000000"
+                    android:fontFamily="@font/poppins_light"
+                    android:textSize="13dp"
+                    android:layout_gravity="center"
+                    android:text="Kami akan melakukan validasi terlebih dahulu secara manual dan akan kami infokan melalui notifikasi untuk hasilnya"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                </TextView>
+
+                <Button
+                    android:textAllCaps="false"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/button_home"
+                    android:textSize="10dp"
+                    android:layout_width="120dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/ic_button_costum_1"
+                    android:text="Kembali ke Menu"
+                    android:textColor="@color/whitePlain"
+                    style="?android:attr/borderlessButtonStyle">
+                </Button>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="visible"
                 android:id="@+id/layout_document"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+                <TextView
+                    android:fontFamily="@font/poppins_semibold"
+                    android:textSize="15dp"
+                    android:textColor="#6045E2"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Unggah Dokumen"/>
                 <LinearLayout
-                    android:layout_marginTop="25dp"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginRight="40dp"
+                    android:layout_weight="0"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginRight="60dp"
                     android:orientation="vertical"
                     android:background="@drawable/ic_box_border"
                     android:layout_width="match_parent"
@@ -96,6 +187,7 @@
                     style="?android:attr/borderlessButtonStyle">
                 </Button>
                 <Button
+                    android:layout_weight="0"
                     android:id="@+id/take_photo"
                     android:gravity="center"
                     android:drawableTint="#FFFFFF"
@@ -110,6 +202,51 @@
                     android:textColor="@color/whitePlain"
                     style="?android:attr/borderlessButtonStyle">
                 </Button>
+                <RelativeLayout
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:layout_alignParentBottom="true"
+                        android:gravity="center|bottom"
+                        android:background="#6045E2"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <CheckBox
+                            android:id="@+id/checkbox_pernyataan"
+                            android:buttonTint="#FFFFFF"
+                            android:textColor="#FFFFFF"
+                            android:layout_marginTop="20dp"
+                            android:textSize="12dp"
+                            android:fontFamily="@font/poppins_light"
+                            android:gravity="top"
+                            android:paddingLeft="10dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:text="Dengan ini saya menyatakan dengan sesungguh-sungguhnya dan sebenar-benarnya bahwa dokumen yang saya kirimkan  adalah benar dan dapat dibuktikan keasliannya"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                        </CheckBox>
+                        <TextView
+                            android:id="@+id/button_next_form2"
+                            android:gravity="center"
+                            android:text="Kirim"
+                            android:background="@drawable/ic_button_costum_1"
+                            android:textAllCaps="false"
+                            android:layout_gravity="right"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginBottom="15dp"
+                            android:textSize="13dp"
+                            android:fontFamily="@font/poppins_medium"
+                            android:backgroundTint="#FFFFFF"
+                            android:layout_width="120dp"
+                            android:layout_height="35dp"
+                            android:textColor="#6045E2">
+                        </TextView>
+                    </LinearLayout>
+                </RelativeLayout>
+
 
             </LinearLayout>
 
@@ -130,7 +267,7 @@
                     app:helperText="*Required"
                     app:helperTextTextColor="#FF0000"
                     app:startIconCheckable="true"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edittext_nama_lengkap"
                         android:textSize="13dp"
@@ -155,7 +292,7 @@
                     app:startIconDrawable="@drawable/ic_baseline_credit_card_24"
                     app:counterMaxLength="16"
                     app:startIconCheckable="true"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
                     <com.google.android.material.textfield.TextInputEditText
                         android:maxLength="16"
                         android:id="@+id/edittext_nik"
@@ -179,7 +316,7 @@
                     app:helperTextTextColor="#FF0000"
                     app:startIconDrawable="@drawable/ic_baseline_local_hospital_24"
                     app:startIconCheckable="true"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edittext_tempat_test"
                         android:textSize="13dp"
@@ -203,7 +340,7 @@
                     app:helperTextTextColor="#FF0000"
                     app:startIconDrawable="@drawable/ic_baseline_date_range_24"
                     app:startIconCheckable="true"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
                     <com.google.android.material.textfield.TextInputEditText
                         android:cursorVisible="false"
                         android:id="@+id/edittext_tanggal_test"
@@ -228,7 +365,7 @@
                     app:helperTextTextColor="#FF0000"
                     app:startIconDrawable="@drawable/ic_baseline_science_24"
                     app:startIconCheckable="true"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
                     <AutoCompleteTextView
                         android:id="@+id/autoComplete_jenis_pemeriksaan"
                         android:textSize="13dp"
@@ -249,7 +386,7 @@
                     app:helperTextTextColor="#FF0000"
                     app:startIconDrawable="@drawable/ic_baseline_assignment_24"
                     app:startIconCheckable="true"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
                     <AutoCompleteTextView
                         android:id="@+id/autoComplete_hasil_pemeriksaan"
                         android:textSize="13dp"
