@@ -2,6 +2,7 @@ package com.ugm.covatech;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -36,7 +37,8 @@ public class profile extends AppCompatActivity {
     FirebaseFirestore db;
     Bitmap bitmap;
     QRGEncoder qrgEncoder;
-    Button buttonLaporTest;
+
+    CardView cardViewLaporTest, cardViewLaporVaksinasi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,18 +48,29 @@ public class profile extends AppCompatActivity {
 
         fAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        buttonLaporTest = findViewById(R.id.buttonLaporTest);
+        cardViewLaporTest = findViewById(R.id.card_lapor_test);
+        cardViewLaporVaksinasi = findViewById(R.id.card_lapor_vaksinasi);
+
+        cardViewLaporTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent homeActivity = new Intent(profile.this, UploadMedicalTestActivity.class);
+                homeActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(homeActivity);
+            }
+        });
+
+        cardViewLaporVaksinasi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent homeActivity = new Intent(profile.this, UploadVaccineTestActivity.class);
+                homeActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(homeActivity);
+            }
+        });
 
         loadProfileCard();
 
-        buttonLaporTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent laporTestIntent = new Intent(profile.this, UploadMedicalTestActivity.class);
-                laporTestIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(laporTestIntent);
-            }
-        });
 
     }
 
