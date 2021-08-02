@@ -16,6 +16,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustPan|adjustResize">
+        <activity android:name=".UploadVaccineTestActivity"></activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.ugm.covatech.fileprovider"
+            android:enabled="true"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <activity android:name=".UploadMedicalTestActivity"></activity>
         <activity android:name=".ReviewPlaceActivity" />
         <activity android:name=".CovaTributeMain" />
