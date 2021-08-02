@@ -118,8 +118,8 @@ public class UploadMedicalTestActivity extends AppCompatActivity {
         textLongDescription.setVisibility(View.GONE);
         homeButton.setVisibility(View.GONE);
 
-        Layout1.setVisibility(View.GONE);
-        Layout2.setVisibility(View.VISIBLE);
+        Layout1.setVisibility(View.VISIBLE);
+        Layout2.setVisibility(View.GONE);
         Layout3.setVisibility(View.GONE);
 
         storage = FirebaseStorage.getInstance();
