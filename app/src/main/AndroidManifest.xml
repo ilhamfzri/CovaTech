@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -16,7 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustPan|adjustResize">
-        <activity android:name=".UploadVaccineTestActivity"></activity>
+        <activity android:name=".DataCovidProvinsiActivity"></activity>
+        <activity android:name=".UploadVaccineTestActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -29,7 +31,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".UploadMedicalTestActivity"></activity>
+        <activity android:name=".UploadMedicalTestActivity" />
         <activity android:name=".ReviewPlaceActivity" />
         <activity android:name=".CovaTributeMain" />
         <activity android:name=".CovatraceActivity" />
