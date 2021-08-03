@@ -5,338 +5,509 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <LinearLayout
-            android:background="#6045E2"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="#6045E2"
+            android:orientation="vertical">
+
             <LinearLayout
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="15dp"
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
                 <TextView
-                    android:textSize="18dp"
-                    android:textColor="#FFFFFF"
-                    android:fontFamily="@font/poppins_bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Halo Gamada, \nCovatech-19">
-                </TextView>
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="Halo Gamada, \nCovatech-19"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18dp"></TextView>
+
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
+
                     <ImageView
-                        android:layout_marginRight="20dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_alignParentEnd="true"
-                        android:backgroundTint="#FFFFFF"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/ic_baseline_notifications_24">
-                    </ImageView>
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/ic_baseline_notifications_24"
+                        android:backgroundTint="#FFFFFF"></ImageView>
                 </RelativeLayout>
 
             </LinearLayout>
 
             <TextView
-                android:textColor="#FFFFFF"
-                android:fontFamily="@font/poppins"
-                android:layout_marginLeft="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ayo lawan Covid-19 di Indonesia Bersama"></TextView>
+                android:layout_marginLeft="15dp"
+                android:fontFamily="@font/poppins"
+                android:text="Ayo lawan Covid-19 di Indonesia Bersama"
+                android:textColor="#FFFFFF"></TextView>
+
             <EditText
                 android:id="@+id/currentLocation"
-                android:drawablePadding="8dp"
-                android:textSize="12dp"
-                android:paddingStart="15dp"
-                android:paddingEnd="15dp"
-                android:fontFamily="@font/poppins"
-                android:text="Yogyakarta, Indonesia"
-                android:padding="5dp"
-                android:drawableTint="#6347E7"
-                android:drawableStart="@drawable/ic_baseline_location_on_24"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:background="@drawable/box_icon_tentang_kami"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </EditText>
-
-        </LinearLayout>
-        <TextView
-            android:translationY="5dp"
-            android:textColor="#121212"
-            android:layout_marginStart="15dp"
-            android:fontFamily="@font/poppins_semibold"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Layanan CovaTech"
-            />
-        <LinearLayout
-            android:layout_margin="15dp"
-            android:weightSum="4"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:onClick="setFasilitas"
-                android:layout_weight="1"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/box_icon_main_menu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/box_icon_tentang_kami"
+                android:drawableStart="@drawable/ic_baseline_location_on_24"
+                android:drawablePadding="8dp"
+                android:drawableTint="#6347E7"
+                android:fontFamily="@font/poppins"
+                android:padding="5dp"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:text="Yogyakarta, Indonesia"
+                android:textSize="12dp"></EditText>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Update Terkini Kasus Covid-19 di Indonesia"
+            android:textColor="#121212"
+            android:textStyle="bold"
+            android:translationY="5dp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="15dp"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                app:strokeColor="#C8C8C8"
+                app:strokeWidth="0.1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingTop="10dp"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/ic_positificon" />
+
+
+                    <TextView
+                        android:id="@+id/text_jumlah_positif"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="....."
+                        android:textAlignment="center"
+                        android:textColor="#6045E2" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:fontFamily="@font/poppins"
+                        android:text="Positif"
+                        android:textAlignment="center"
+                        android:textColor="#121212" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                app:strokeColor="#C8C8C8"
+                app:strokeWidth="0.1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingTop="10dp"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/ic_sembuhicon" />
+
+                    <TextView
+                        android:id="@+id/text_jumlah_sembuh"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="....."
+                        android:textAlignment="center"
+                        android:textColor="#2ECC71" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:fontFamily="@font/poppins"
+                        android:text="Sembuh"
+                        android:textAlignment="center"
+                        android:textColor="#121212" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                app:strokeColor="#C8C8C8"
+                app:strokeWidth="0.1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingTop="10dp"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/ic_meninggalicon" />
+
+                    <TextView
+                        android:id="@+id/text_jumlah_meninggal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="....."
+                        android:textAlignment="center"
+                        android:textColor="#FF1800" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:fontFamily="@font/poppins"
+                        android:text="Meninggal"
+                        android:textAlignment="center"
+                        android:textColor="#121212" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Layanan CovaTech"
+            android:textColor="#121212"
+            android:textStyle="bold"
+            android:translationY="5dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/box_icon_main_menu"
+                android:onClick="setFasilitas"
                 android:orientation="vertical">
+
                 <ImageView
-                    android:layout_marginTop="8dp"
-                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_fasilitaskesehatanicon"/>
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/ic_fasilitaskesehatanicon" />
+
                 <TextView
-                    android:textSize="12dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins"
                     android:lineSpacingMultiplier="0.7"
-                    android:textColor="#121212"
-                    android:fontFamily="@font/poppins"
+                    android:text="Fasilitas Kesehatan"
                     android:textAlignment="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Fasilitas Kesehatan"/>
+                    android:textColor="#121212"
+                    android:textSize="12dp" />
             </LinearLayout>
+
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/box_icon_main_menu"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <ImageView
-                    android:layout_marginTop="8dp"
-                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_covamapsicon"/>
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/ic_covamapsicon" />
+
                 <TextView
-                    android:textSize="12dp"
-                    android:textColor="#121212"
-                    android:fontFamily="@font/poppins"
-                    android:textAlignment="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="CovaMaps"/>
+                    android:fontFamily="@font/poppins"
+                    android:text="CovaMaps"
+                    android:textAlignment="center"
+                    android:textColor="#121212"
+                    android:textSize="12dp" />
             </LinearLayout>
+
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/box_icon_main_menu"
                 android:onClick="setCovaTrace"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/box_icon_main_menu"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <ImageView
-                    android:layout_marginTop="8dp"
-                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_covatrace"/>
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/ic_covatrace" />
+
                 <TextView
-                    android:textSize="12dp"
-                    android:textColor="#121212"
-                    android:fontFamily="@font/poppins"
-                    android:textAlignment="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="CovaTrace"/>
+                    android:fontFamily="@font/poppins"
+                    android:text="CovaTrace"
+                    android:textAlignment="center"
+                    android:textColor="#121212"
+                    android:textSize="12dp" />
             </LinearLayout>
+
             <LinearLayout
-                android:onClick="setCovaTribute"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/box_icon_main_menu"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:onClick="setCovaTribute"
                 android:orientation="vertical">
+
                 <ImageView
-                    android:layout_marginTop="8dp"
-                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_covatribute"/>
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/ic_covatribute" />
+
                 <TextView
-                    android:textSize="12dp"
-                    android:textColor="#121212"
-                    android:fontFamily="@font/poppins"
-                    android:textAlignment="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="CovaTribute"/>
+                    android:fontFamily="@font/poppins"
+                    android:text="CovaTribute"
+                    android:textAlignment="center"
+                    android:textColor="#121212"
+                    android:textSize="12dp" />
             </LinearLayout>
 
         </LinearLayout>
+
         <TextView
-            android:translationY="5dp"
-            android:textColor="#121212"
-            android:layout_marginStart="15dp"
-            android:fontFamily="@font/poppins_semibold"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:fontFamily="@font/poppins_semibold"
             android:text="Tentang Kami"
-            ></TextView>
+            android:textColor="#121212"
+            android:textStyle="bold"
+            android:translationY="5dp"></TextView>
 
         <LinearLayout
-            android:layout_marginTop="12dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="15dp"
+            android:orientation="vertical">
+
             <LinearLayout
+                android:id="@+id/linearLayout_data_covid_per_provinsi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
-                android:orientation="horizontal"
                 android:background="@drawable/box_icon_tentang_kami"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:orientation="horizontal">
+
                 <ImageView
-                    android:layout_marginLeft="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_sumberinformasiicon">
-                </ImageView>
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/ic_sumberinformasiicon"></ImageView>
+
                 <LinearLayout
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginRight="15dp"
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="vertical">
+
                     <TextView
-                        android:textSize="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
-                        android:layout_weight="1"
-                        android:textColor="#121212"
                         android:layout_marginStart="15dp"
+                        android:layout_weight="1"
                         android:fontFamily="@font/poppins_semibold"
-                        android:textStyle="bold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Sumber Informasi">
-                    </TextView>
+                        android:text="Data Covid-19 Per Provinsi"
+                        android:textColor="#121212"
+                        android:textSize="12dp"
+                        android:textStyle="bold"></TextView>
+
                     <TextView
-                        android:textSize="10dp"
-                        android:layout_weight="1"
-                        android:textColor="#5E5E5E"
-                        android:layout_marginStart="15dp"
-                        android:fontFamily="@font/poppins"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Kami menampilkan data dari sumber terpercaya">
-                    </TextView>
+                        android:layout_marginStart="15dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/poppins"
+                        android:text="Kami menampilkan data dari sumber terpercaya"
+                        android:textColor="#5E5E5E"
+                        android:textSize="10dp"></TextView>
 
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
-                android:orientation="horizontal"
                 android:background="@drawable/box_icon_tentang_kami"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:orientation="horizontal">
+
                 <ImageView
-                    android:layout_marginLeft="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_surveikepuasanpenggunaicon">
-                </ImageView>
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/ic_surveikepuasanpenggunaicon"></ImageView>
+
                 <LinearLayout
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginRight="15dp"
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="vertical">
+
                     <TextView
-                        android:textSize="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
-                        android:layout_weight="1"
-                        android:textColor="#121212"
                         android:layout_marginStart="15dp"
+                        android:layout_weight="1"
                         android:fontFamily="@font/poppins_semibold"
-                        android:textStyle="bold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Survei Kepuasan Pengguna">
-                    </TextView>
+                        android:text="Survei Kepuasan Pengguna"
+                        android:textColor="#121212"
+                        android:textSize="12dp"
+                        android:textStyle="bold"></TextView>
+
                     <TextView
-                        android:textSize="10dp"
-                        android:layout_weight="1"
-                        android:textColor="#5E5E5E"
-                        android:layout_marginStart="15dp"
-                        android:fontFamily="@font/poppins"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Berikan kami komentar anda mengenai aplikasi">
-                    </TextView>
+                        android:layout_marginStart="15dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/poppins"
+                        android:text="Berikan kami komentar anda mengenai aplikasi"
+                        android:textColor="#5E5E5E"
+                        android:textSize="10dp"></TextView>
 
                 </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:background="@drawable/box_icon_tentang_kami"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/box_icon_tentang_kami"
+                android:orientation="horizontal">
+
                 <ImageView
-                    android:layout_marginLeft="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_hubungikamiicon">
-                </ImageView>
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/ic_hubungikamiicon"></ImageView>
+
                 <LinearLayout
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginRight="15dp"
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="vertical">
+
                     <TextView
-                        android:textSize="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
-                        android:layout_weight="1"
-                        android:textColor="#121212"
                         android:layout_marginStart="15dp"
+                        android:layout_weight="1"
                         android:fontFamily="@font/poppins_semibold"
-                        android:textStyle="bold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Hubungi Kami 24 jam">
-                    </TextView>
+                        android:text="Hubungi Kami 24 jam"
+                        android:textColor="#121212"
+                        android:textSize="12dp"
+                        android:textStyle="bold"></TextView>
+
                     <TextView
-                        android:textSize="10dp"
-                        android:layout_weight="1"
-                        android:textColor="#5E5E5E"
-                        android:layout_marginStart="15dp"
-                        android:fontFamily="@font/poppins"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Kondisi darurat dan konsultasi langsung dengan kami">
-                    </TextView>
+                        android:layout_marginStart="15dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/poppins"
+                        android:text="Kondisi darurat dan konsultasi langsung dengan kami"
+                        android:textColor="#5E5E5E"
+                        android:textSize="10dp"></TextView>
 
                 </LinearLayout>
             </LinearLayout>
@@ -344,7 +515,6 @@
         </LinearLayout>
 
     </LinearLayout>
-
 
 
     <com.google.android.material.bottomappbar.BottomAppBar
@@ -381,18 +551,18 @@
         android:focusable="true"
         android:src="@drawable/ic_qr_code"
         app:backgroundTint="@color/boxViolet"
-        app:fabSize="auto"
         app:backgroundTintMode="add"
+        app:fabSize="auto"
         app:layout_anchor="@+id/bottom_app_bar"
         app:layout_anchorGravity="center|top" />
 
     <TextView
-        android:translationY='10dp'
-        android:textColor="@color/boxViolet"
-        android:text="Scan"
-        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Scan"
+        android:textColor="@color/boxViolet"
+        android:textStyle="bold"
+        android:translationY='10dp'
         app:backgroundTint="@color/boxViolet"
         app:layout_anchor="@id/addFab"
         app:layout_anchorGravity="center|bottom" />
