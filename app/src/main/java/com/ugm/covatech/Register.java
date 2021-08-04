@@ -80,14 +80,12 @@ public class Register extends AppCompatActivity {
 
         //Check Password length, if below 6 character return error
         if(vPassword.length()<6 || vPassword2.length()<6){
-            mPassword1.setError("Password minimal 6 karakter!");
-            mPassword2.setError("Password minimal 6 karakter!");
+            Toast.makeText(Register.this, "Password minimal 6 karakter!", Toast.LENGTH_SHORT).show();
             return;
         }
         //Check Password
         if(vPassword.equals(vPassword2)==false){
-            mPassword1.setError("Password anda berbeda!");
-            mPassword2.setError("Password anda berbeda!");
+            Toast.makeText(Register.this, "Password yang anda masukan berbeda dengan password konfirmasi!", Toast.LENGTH_SHORT).show();
             return;
         }
 
