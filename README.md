@@ -5,6 +5,7 @@
     <img src="app/resource/logo.svg" alt="Logo" width="600" height="600">
   </a>
 
+  
   <h3 align="center">COVATECH</h3>
 
   <p align="center">
