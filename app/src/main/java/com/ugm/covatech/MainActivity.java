@@ -2,7 +2,6 @@ package com.ugm.covatech;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,8 +16,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -26,24 +23,19 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.gson.JsonObject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -57,7 +49,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     TextView currentLocation;
@@ -118,6 +109,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void setCovaTrace(View view) {
         Intent nextActivity = new Intent(MainActivity.this, CovatraceActivity.class);
+        nextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(nextActivity);
+    }
+
+    public void setCovaMaps(View view){
+        Intent nextActivity = new Intent(MainActivity.this, CovaMapsActivity.class);
         nextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(nextActivity);
     }
@@ -249,9 +246,9 @@ public class MainActivity extends AppCompatActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        try{
-                            for(int i=0;i<response.length();i++){
-                                JSONObject jsonObjectCovid19Indo= response.getJSONObject(i);
+                        try {
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject jsonObjectCovid19Indo = response.getJSONObject(i);
                                 Log.d("Data", jsonObjectCovid19Indo.toString());
                                 Log.d("Kasus Positif", jsonObjectCovid19Indo.getString("positif"));
                                 Log.d("Sembuh", jsonObjectCovid19Indo.getString("sembuh"));
@@ -261,14 +258,14 @@ public class MainActivity extends AppCompatActivity {
                                 textViewKasusSembuh.setText(jsonObjectCovid19Indo.getString("sembuh"));
                                 textViewKasusMeninggal.setText(jsonObjectCovid19Indo.getString("meninggal"));
                             }
-                        }catch (JSONException e){
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 },
-                new Response.ErrorListener(){
+                new Response.ErrorListener() {
                     @Override
-                    public void onErrorResponse(VolleyError error){
+                    public void onErrorResponse(VolleyError error) {
 
                     }
                 }

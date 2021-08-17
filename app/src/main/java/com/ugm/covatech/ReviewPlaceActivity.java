@@ -30,6 +30,7 @@ import com.google.firebase.firestore.SetOptions;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.Time;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -305,6 +306,7 @@ public class ReviewPlaceActivity extends AppCompatActivity {
                             dataUlasan.put("user_name", userFullName);
                             dataUlasan.put("ulasan", valUlasan);
                             dataUlasan.put("date", Timestamp.now());
+
 
                             documentReferenceUlasan.set(dataUlasan).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override

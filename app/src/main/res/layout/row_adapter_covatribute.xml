@@ -1,85 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp"
     android:layout_marginLeft="20dp"
+    android:layout_marginTop="5dp"
     android:layout_marginRight="20dp"
-    android:id="@+id/layout"
+    android:layout_marginBottom="5dp"
     android:background="@drawable/box_icon_tentang_kami"
     android:orientation="horizontal">
-        <ImageView
-            android:layout_gravity="center"
-            android:layout_marginTop="12dp"
+
+    <ImageView
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="12dp"
+        android:elevation="120dp"
+        android:src="@drawable/ic_group_6854__3_"></ImageView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textPlace"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Universitas Gadjah Mada"
+            android:textColor="#131313"
+            android:textSize="15dp"></TextView>
+
+        <TextView
+            android:id="@+id/textAddress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginRight="15dp"
-            android:layout_marginBottom="12dp"
-            android:layout_marginLeft="15dp"
-            android:elevation="120dp"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:src="@drawable/ic_group_6854__3_">
-        </ImageView>
+            android:ellipsize="end"
+            android:fontFamily="@font/poppins"
+            android:singleLine="true"
+            android:text="Bulaksumur, Caturtunggal, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55281"
+            android:textColor="#131313"
+            android:textSize="12dp"></TextView>
+
         <LinearLayout
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-                <TextView
-                    android:id="@+id/textPlace"
-                    android:textSize="15dp"
-                    android:textColor="#131313"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:text="Universitas Gadjah Mada"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                </TextView>
-                <TextView
-                    android:id="@+id/textAddress"
-                    android:layout_marginRight="15dp"
-                    android:singleLine="true"
-                    android:ellipsize="end"
-                    android:textSize="12dp"
-                    android:textColor="#131313"
-                    android:fontFamily="@font/poppins"
-                    android:text="Bulaksumur, Caturtunggal, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55281"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                </TextView>
-                <LinearLayout
-                    android:layout_marginRight="15dp"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                        <me.zhanghai.android.materialratingbar.MaterialRatingBar
-                            app:mrb_progressTint="#FABE52"
-                            app:mrb_secondaryProgressTint="#CAC8D0"
-                            app:mrb_progressBackgroundTint="#CAC8D0"
-                            android:isIndicator="true"
-                            android:rating="3.5"
-                            android:id="@+id/starBar"
-                            android:layout_gravity="start"
-                            android:layout_width="wrap_content"
-                            android:layout_height="20dp"
-                            android:layout_marginRight="70dp"
-                            style="@style/Widget.MaterialRatingBar.RatingBar" />
-                        <TextView
-                            android:id="@+id/buttonReview"
-                            android:gravity="right"
-                            android:fontFamily="@font/poppins"
-                            android:textColor="#FFFFFF"
-                            android:paddingRight="10dp"
-                            android:paddingLeft="10dp"
-                            android:background="@drawable/ic_button_costum_4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="12dp"
-                            android:textAllCaps="false"
-                            android:text="Tulis Review">
-                        </TextView>
-                </LinearLayout>
+            android:layout_marginRight="15dp"
+            android:orientation="horizontal">
+
+            <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                android:id="@+id/starBar"
+                style="@style/Widget.MaterialRatingBar.RatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_gravity="start"
+                android:layout_marginRight="70dp"
+                android:isIndicator="true"
+                android:rating="3.5"
+                app:mrb_progressBackgroundTint="#CAC8D0"
+                app:mrb_progressTint="#FABE52"
+                app:mrb_secondaryProgressTint="#CAC8D0" />
+
+            <TextView
+                android:id="@+id/buttonReview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_button_costum_4"
+                android:fontFamily="@font/poppins"
+                android:gravity="right"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="Tulis Review"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="12dp"></TextView>
         </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

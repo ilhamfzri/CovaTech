@@ -25,7 +25,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity {
-    EditText mEmail,mPassword;
+    EditText mEmail, mPassword;
     FirebaseAuth fAuth;
     TextView textLupa;
 
@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         mPassword = findViewById(R.id.editPassword);
         textLupa = findViewById(R.id.lupa_password);
 
-        fAuth=FirebaseAuth.getInstance();
+        fAuth = FirebaseAuth.getInstance();
 
         textLupa.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,12 +54,12 @@ public class LoginActivity extends AppCompatActivity {
                         fAuth.sendPasswordResetEmail(mail).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(LoginActivity.this,"Link Reset Password Telah Dikirim.",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Link Reset Password Telah Dikirim.", Toast.LENGTH_SHORT).show();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(LoginActivity.this,"Error! Reset Link Tidak Terkirim",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Error! Reset Link Tidak Terkirim", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -83,14 +83,14 @@ public class LoginActivity extends AppCompatActivity {
 //        overridePendingTransition(0,0);
     }
 
-    public void setLogin(View view){
+    public void setLogin(View view) {
         String vEmail = mEmail.getText().toString();
         String vPassword = mPassword.getText().toString();
-        if(TextUtils.isEmpty(vPassword)) {
+        if (TextUtils.isEmpty(vPassword)) {
             Toast.makeText(LoginActivity.this, "Lengkapi email dan password!", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(TextUtils.isEmpty(vEmail)) {
+        if (TextUtils.isEmpty(vEmail)) {
             Toast.makeText(LoginActivity.this, "Lengkapi email dan password!", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -98,18 +98,16 @@ public class LoginActivity extends AppCompatActivity {
         fAuth.signInWithEmailAndPassword(vEmail, vPassword).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     FirebaseUser user = fAuth.getCurrentUser();
-                    if(!user.isEmailVerified()){
+                    if (!user.isEmailVerified()) {
                         fAuth.signOut();
                         Toast.makeText(LoginActivity.this, "Cek Email dan Mohon Verifikasi Akun Anda!", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
+                    } else {
                         Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(mainActivity, ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this).toBundle());
                     }
-                }
-                else{
+                } else {
                     mEmail.setError("Email atau password anda salah!");
                     mPassword.setError("Email atau password anda salah!");
                     Toast.makeText(LoginActivity.this, "Login Gagal, Email atau Password Salah!!", Toast.LENGTH_SHORT).show();

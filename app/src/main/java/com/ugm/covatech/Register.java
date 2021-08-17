@@ -38,7 +38,7 @@ public class Register extends AppCompatActivity {
 
 
         fAuth = FirebaseAuth.getInstance();
-        fStore=FirebaseFirestore.getInstance();
+        fStore = FirebaseFirestore.getInstance();
 
         mName = findViewById(R.id.editName);
         mEmail = findViewById(R.id.editEmail);
@@ -46,9 +46,8 @@ public class Register extends AppCompatActivity {
         mPassword2 = findViewById(R.id.editPassword2);
     }
 
-    public static boolean isValid(String email)
-    {
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+    public static boolean isValid(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
                 "[a-zA-Z0-9_+&*-]+)*@" +
                 "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
                 "A-Z]{2,7}$";
@@ -59,32 +58,32 @@ public class Register extends AppCompatActivity {
         return pat.matcher(email).matches();
     }
 
-    public void setRegister(View view){
+    public void setRegister(View view) {
         final String vEmail = mEmail.getText().toString().trim();
         final String vName = mName.getText().toString().trim();
-        final String vPassword= mPassword1.getText().toString().trim();
+        final String vPassword = mPassword1.getText().toString().trim();
         final String vPassword2 = mPassword2.getText().toString().trim();
 
         //Check Email Validity
-        if(isValid(vEmail)==false){
+        if (isValid(vEmail) == false) {
             mEmail.setError("Masukan email yang benar!");
 
             return;
         }
 
         //Check Name
-        if(TextUtils.isEmpty(vName)){
+        if (TextUtils.isEmpty(vName)) {
             mName.setError("Masukan Nama anda!");
             return;
         }
 
         //Check Password length, if below 6 character return error
-        if(vPassword.length()<6 || vPassword2.length()<6){
+        if (vPassword.length() < 6 || vPassword2.length() < 6) {
             Toast.makeText(Register.this, "Password minimal 6 karakter!", Toast.LENGTH_SHORT).show();
             return;
         }
         //Check Password
-        if(vPassword.equals(vPassword2)==false){
+        if (vPassword.equals(vPassword2) == false) {
             Toast.makeText(Register.this, "Password yang anda masukan berbeda dengan password konfirmasi!", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -92,7 +91,7 @@ public class Register extends AppCompatActivity {
         fAuth.createUserWithEmailAndPassword(vEmail, vPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     FirebaseUser user = fAuth.getCurrentUser();
                     user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -109,6 +108,8 @@ public class Register extends AppCompatActivity {
                 Map<String, Object> userData = new HashMap<>();
                 userData.put("Name", vName);
                 userData.put("Email", vEmail);
+                userData.put("VaksinStatus", false);
+                userData.put("CovidStatus", true);
                 documentReference.set(userData).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -120,11 +121,10 @@ public class Register extends AppCompatActivity {
             }
 
 
-
         });
     }
 
-    public void setLogin(View view){
+    public void setLogin(View view) {
         Intent loginActivity = new Intent(Register.this, LoginActivity.class);
         startActivity(loginActivity, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }

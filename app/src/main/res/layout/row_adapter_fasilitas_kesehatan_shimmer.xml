@@ -1,47 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="15dp"
-    android:layout_marginBottom="4dp"
-    android:layout_marginRight="15dp"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="15dp"
+    android:layout_marginTop="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginBottom="4dp"
     android:background="@drawable/box_icon_tentang_kami"
     android:orientation="horizontal">
+
     <ImageView
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_tempatkesehatan">
-    </ImageView>
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/ic_tempatkesehatan"></ImageView>
+
     <LinearLayout
-        android:layout_marginLeft="15dp"
-        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/location"
-            android:textSize="14dp"
-            android:background="#dddddd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Locationasdsadsadsadasdas"
+            android:background="#dddddd"
             android:fontFamily="@font/poppins_semibold"
-            android:textColor="#dddddd">
-        </TextView>
+            android:text="Locationasdsadsadsadasdas"
+            android:textColor="#dddddd"
+            android:textSize="14dp"></TextView>
+
         <TextView
-            android:background="#dddddd"
             android:id="@+id/distance"
-            android:textSize="12dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Distanc3232e"
+            android:background="#dddddd"
             android:fontFamily="@font/poppins"
-            android:textColor="#dddddd">
-        </TextView>
+            android:text="Distanc3232e"
+            android:textColor="#dddddd"
+            android:textSize="12dp"></TextView>
     </LinearLayout>
 
 </LinearLayout>

@@ -45,7 +45,7 @@ public class CovatraceActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     Calendar paginationCalendarCurrent, paginationCalendarOffset;
     TextView paginationText;
-    Integer dateOffset=0;
+    Integer dateOffset = 0;
     Date paginationDate;
     Button paginationBefore, paginationAfter;
     LinearLayout not_available_layout;
@@ -70,7 +70,7 @@ public class CovatraceActivity extends AppCompatActivity {
 
         mShimmerViewContainer = findViewById(R.id.shimmerFrameLayout);
 
-        handler=new Handler();
+        handler = new Handler();
         //Get Current Calendar
         paginationCalendarCurrent = Calendar.getInstance();
 
@@ -82,7 +82,7 @@ public class CovatraceActivity extends AppCompatActivity {
         setPagination();
     }
 
-    public void setPagination(){
+    public void setPagination() {
 
         not_available_layout.setVisibility(View.GONE);
 
@@ -94,7 +94,7 @@ public class CovatraceActivity extends AppCompatActivity {
             public void run() {
                 updatePaginationBar();
             }
-        },1000);
+        }, 1000);
 
         paginationAfter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +110,7 @@ public class CovatraceActivity extends AppCompatActivity {
                     public void run() {
                         updatePaginationBar();
                     }
-                },1000);
+                }, 1000);
 
             }
         });
@@ -129,13 +129,13 @@ public class CovatraceActivity extends AppCompatActivity {
                     public void run() {
                         updatePaginationBar();
                     }
-                },1000);
+                }, 1000);
             }
         });
     }
 
     @SuppressLint("SetTextI18n")
-    public  void updatePaginationBar(){
+    public void updatePaginationBar() {
 
         paginationCalendarOffset = Calendar.getInstance();
         paginationCalendarOffset.add(Calendar.DAY_OF_MONTH, dateOffset);
@@ -144,29 +144,26 @@ public class CovatraceActivity extends AppCompatActivity {
 
 
         //Set Pagination Button Enable/Disable
-        if(dateOffset==0){
+        if (dateOffset == 0) {
             paginationAfter.setEnabled(false);
-        }
-        else if(dateOffset==-14){
+        } else if (dateOffset == -14) {
             paginationBefore.setEnabled(false);
-        }
-        else{
+        } else {
             paginationAfter.setEnabled(true);
             paginationBefore.setEnabled(true);
         }
 
         //Set Pagination Text
-        if(dateOffset==0){
+        if (dateOffset == 0) {
             paginationText.setText("Hari Ini");
-        }
-        else{
+        } else {
             paginationText.setText(df);
         }
 
         updateRecycleView();
     }
 
-    public void updateRecycleView(){
+    public void updateRecycleView() {
         final ArrayList<String> arrayNamePlace = new ArrayList<String>();
         final ArrayList<String> arrayRangeTime = new ArrayList<String>();
 
@@ -181,7 +178,7 @@ public class CovatraceActivity extends AppCompatActivity {
         Calendar startCalendar = Calendar.getInstance();
         Calendar endCalendar = Calendar.getInstance();
         startCalendar.set(yy, mm, dd, 0, 0, 0);
-        endCalendar.set(yy, mm, dd+1, 0, 0, 0);
+        endCalendar.set(yy, mm, dd + 1, 0, 0, 0);
 
         Date startDate = startCalendar.getTime();
         Date endDate = endCalendar.getTime();
@@ -193,55 +190,52 @@ public class CovatraceActivity extends AppCompatActivity {
         db.collection("users").document(userUID).collection("tracking_data").whereLessThan("start_time", endDate).
                 whereGreaterThan("start_time", startDate).orderBy("start_time", Query.Direction.DESCENDING).get().
                 addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    for (QueryDocumentSnapshot document : task.getResult()){
-                        Log.d("Place", document.getString("place_name"));
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("Place", document.getString("place_name"));
 
-                        Timestamp startTime = document.getTimestamp("start_time");
-                        Timestamp endTime = document.getTimestamp("end_time");
+                                Timestamp startTime = document.getTimestamp("start_time");
+                                Timestamp endTime = document.getTimestamp("end_time");
 
 
-                        String pattern = "hh:mm a";
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+                                String pattern = "hh:mm a";
+                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
-                        Date dateStartTime = startTime.toDate();
-                        Date dateEndTime = endTime.toDate();
+                                Date dateStartTime = startTime.toDate();
+                                Date dateEndTime = endTime.toDate();
 
-                        String sStartTime = simpleDateFormat.format(dateStartTime);
-                        String sEndTime = simpleDateFormat.format(dateEndTime);
+                                String sStartTime = simpleDateFormat.format(dateStartTime);
+                                String sEndTime = simpleDateFormat.format(dateEndTime);
 
-                        arrayNamePlace.add(document.getString("place_name"));
-                        arrayRangeTime.add(sStartTime+" - "+sEndTime);
-                    }
-                    final String[] stringLocationName = arrayNamePlace.toArray(new String[0]);
-                    final String[] stringTimeRange = arrayRangeTime.toArray(new String[0]);
-
-                    if(arrayNamePlace.size()==0){
-                        not_available_layout.setVisibility(View.VISIBLE);
-                        not_available_layout.startAnimation(animFadeIn);
-                    }
-                    else{
-                        adapterCovaTrace = new AdapterCovaTrace(CovatraceActivity.this, stringLocationName, stringTimeRange, new AdapterCovaTrace.ClickListener() {
-                            @Override
-                            public void onPositionClicked(int position) {
-                                Log.d("Clicked", "Click");
+                                arrayNamePlace.add(document.getString("place_name"));
+                                arrayRangeTime.add(sStartTime + " - " + sEndTime);
                             }
-                        });
+                            final String[] stringLocationName = arrayNamePlace.toArray(new String[0]);
+                            final String[] stringTimeRange = arrayRangeTime.toArray(new String[0]);
 
-                        mShimmerViewContainer.setVisibility(View.GONE);
-                        mShimmerViewContainer.stopShimmerAnimation();
+                            if (arrayNamePlace.size() == 0) {
+                                not_available_layout.setVisibility(View.VISIBLE);
+                                not_available_layout.startAnimation(animFadeIn);
+                            } else {
+                                adapterCovaTrace = new AdapterCovaTrace(CovatraceActivity.this, stringLocationName, stringTimeRange, new AdapterCovaTrace.ClickListener() {
+                                    @Override
+                                    public void onPositionClicked(int position) {
+                                        Log.d("Clicked", "Click");
+                                    }
+                                });
 
-                        recyclerView = findViewById(R.id.recyclerView);
-                        recyclerView.setAdapter(adapterCovaTrace);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(CovatraceActivity.this));
+                                mShimmerViewContainer.setVisibility(View.GONE);
+                                mShimmerViewContainer.stopShimmerAnimation();
+                                recyclerView = findViewById(R.id.recyclerView);
+                                recyclerView.setAdapter(adapterCovaTrace);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(CovatraceActivity.this));
 
+                            }
+                        }
                     }
-                }
-            }
-        });
-
+                });
 
 
     }

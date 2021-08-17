@@ -1,46 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp"
-    android:id="@+id/layout"
     android:background="@drawable/ic_box_location"
     android:orientation="horizontal">
+
     <ImageView
-        android:layout_gravity="center_vertical"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="15dp"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:background="@drawable/ic_location">
-    </ImageView>
-    <LinearLayout
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
-        android:layout_marginLeft="30dp"
-        android:orientation="vertical"
+        android:background="@drawable/ic_location"></ImageView>
+
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/namePlace"
-            android:textSize="14dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Universitas Gadjah Mada"
             android:fontFamily="@font/poppins_semibold"
-            android:textColor="#121212">
-        </TextView>
+            android:text="Universitas Gadjah Mada"
+            android:textColor="#121212"
+            android:textSize="14dp"></TextView>
+
         <TextView
             android:id="@+id/timeRange"
-            android:textSize="12dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="12.00 am - 2.34 pm"
             android:fontFamily="@font/poppins"
-            android:textColor="#5E5E5E">
-        </TextView>
+            android:text="12.00 am - 2.34 pm"
+            android:textColor="#5E5E5E"
+            android:textSize="12dp"></TextView>
     </LinearLayout>
 
 </LinearLayout>

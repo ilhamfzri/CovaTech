@@ -175,13 +175,13 @@ public class UploadVaccineTestActivity extends AppCompatActivity {
 
                     Layout3.setVisibility(View.VISIBLE);
                     stepView.go(stepView.getCurrentStep() + 1, true);
-                    handler=new Handler();
+                    handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             uploadData();
                         }
-                    },4000);
+                    }, 4000);
                 }
             }
         });
@@ -398,11 +398,11 @@ public class UploadVaccineTestActivity extends AppCompatActivity {
         bmOptions.inSampleSize = scaleFactor;
         Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
         image = bitmap;
-        documentImage.setImageBitmap(RotateBitmap(bitmap,90));
+        documentImage.setImageBitmap(RotateBitmap(bitmap, 90));
 
     }
-    public static Bitmap RotateBitmap(Bitmap source, float angle)
-    {
+
+    public static Bitmap RotateBitmap(Bitmap source, float angle) {
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);

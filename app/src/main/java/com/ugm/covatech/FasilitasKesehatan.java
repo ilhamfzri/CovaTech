@@ -69,7 +69,6 @@ public class FasilitasKesehatan extends AppCompatActivity {
     double currentLongitude;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,13 +78,13 @@ public class FasilitasKesehatan extends AppCompatActivity {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mShimmerViewContainer = findViewById(R.id.shimmerFrameLayout);
 
-        handler=new Handler();
+        handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 loadData();
             }
-        },1000);
+        }, 1000);
     }
 
     @Override
@@ -106,7 +105,7 @@ public class FasilitasKesehatan extends AppCompatActivity {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     //Check Current Latitude & Longitude
-                    Log.d("Current Location", "Latitude :" + Double.toString(currentLatitude) +", Longitude : "+ Double.toString(currentLongitude));
+                    Log.d("Current Location", "Latitude :" + Double.toString(currentLatitude) + ", Longitude : " + Double.toString(currentLongitude));
 
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
@@ -114,7 +113,7 @@ public class FasilitasKesehatan extends AppCompatActivity {
                         double placeLon = document.getGeoPoint("Geopoint").getLongitude();
 
                         float distance = distanceLocation(placeLat, placeLon, currentLatitude, currentLongitude);
-                        Log.d("Current Location", "Latitude :" + Double.toString(placeLat) +", Longitude : "+ Double.toString(placeLon));
+                        Log.d("Current Location", "Latitude :" + Double.toString(placeLat) + ", Longitude : " + Double.toString(placeLon));
                         String roundedDistance = String.format("%.2f", distance);
                         Log.d("Distance", roundedDistance);
 
@@ -189,7 +188,7 @@ public class FasilitasKesehatan extends AppCompatActivity {
 
     }
 
-    public float distanceLocation(double srcLat, double srcLon, double desLat, double desLon){
+    public float distanceLocation(double srcLat, double srcLon, double desLat, double desLon) {
         Location locationA = new Location("point A");
 
         locationA.setLatitude(srcLat);
@@ -201,12 +200,12 @@ public class FasilitasKesehatan extends AppCompatActivity {
         locationB.setLongitude(desLon);
 
         float distance = locationA.distanceTo(locationB);
-        return distance/1000;
+        return distance / 1000;
     }
 
     @SuppressLint("MissingPermission")
     private void getLastLocation() {
-        Log.d("Test","test");
+        Log.d("Test", "test");
         // check if permissions are given
         if (checkPermissions()) {
 
@@ -223,8 +222,7 @@ public class FasilitasKesehatan extends AppCompatActivity {
                                 }
                             }
                         });
-                }
-                else {
+            } else {
                 Toast.makeText(this, "Please turn on" + " your location...", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(intent);
