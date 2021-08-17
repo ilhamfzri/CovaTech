@@ -17,7 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustPan|adjustResize">
-        <activity android:name=".DataCovidProvinsiActivity"></activity>
+        <activity android:name=".CovaMapsActivity"></activity>
+        <activity android:name=".DataCovidProvinsiActivity" />
         <activity android:name=".UploadVaccineTestActivity" />
 
         <provider
@@ -79,6 +80,9 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key"/>
     </application>
 
 </manifest>
