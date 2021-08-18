@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ugm.covatech">
 
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -17,7 +18,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustPan|adjustResize">
-        <activity android:name=".CovaMapsActivity"></activity>
+        <activity android:name=".ReviewResultActivity"></activity>
+        <activity android:name=".ReviewListActivity" />
+        <activity android:name=".ScannerActivity" />
+        <activity android:name=".CovaMapsActivity" />
         <activity android:name=".DataCovidProvinsiActivity" />
         <activity android:name=".UploadVaccineTestActivity" />
 
@@ -36,8 +40,8 @@
         <activity android:name=".ReviewPlaceActivity" />
         <activity android:name=".CovaTributeMain" />
         <activity android:name=".CovatraceActivity" />
-        <activity android:name=".profile" />
-        <activity android:name=".FasilitasKesehatan">
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".FasilitasKesehatanActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -82,7 +86,7 @@
             android:resource="@array/preloaded_fonts" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key"/>
+            android:value="@string/google_maps_key" />
     </application>
 
 </manifest>

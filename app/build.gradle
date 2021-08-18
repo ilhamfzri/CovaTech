@@ -55,7 +55,12 @@ dependencies {
     implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
     implementation 'com.shuhart.stepview:stepview:1.5.1'
+    implementation 'com.budiyev.android:code-scanner:2.1.0'
+    implementation 'pub.devrel:easypermissions:2.0.1'
+    implementation 'com.google.android.libraries.places:places:2.4.0'
+    implementation 'com.github.AnyChart:AnyChart-Android:1.1.2'
     compile 'com.google.firebase:firebase-storage:10.0.1'
+
 
     def lottieVersion = "3.4.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
