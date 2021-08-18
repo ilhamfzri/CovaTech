@@ -148,7 +148,7 @@
                 android:layout_marginRight="25dp"
                 android:background="@drawable/ic_button_costum_1"
                 android:fontFamily="@font/poppins_semibold"
-                android:onClick="setLogin"
+                android:onClick="setRegister"
                 android:padding="8dp"
                 android:text="Daftar Akun"
                 android:textAlignment="center"

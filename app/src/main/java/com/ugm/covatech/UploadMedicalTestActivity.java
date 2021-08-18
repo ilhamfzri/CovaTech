@@ -306,7 +306,6 @@ public class UploadMedicalTestActivity extends AppCompatActivity {
 
         StorageReference mStorageRef = storage.getReference();
         final String collection_id = Long.toString(Timestamp.now().getSeconds()) + varUserUID;
-
         StorageReference imageRef = mStorageRef.child("data_lapor_test/" + collection_id + "/" + "document");
 
         byte[] b = stream.toByteArray();

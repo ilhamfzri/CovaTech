@@ -1,10 +1,8 @@
 package com.ugm.covatech;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,31 +11,22 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Typeface;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.provider.Settings;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -49,7 +38,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class FasilitasKesehatan extends AppCompatActivity {
+public class FasilitasKesehatanActivity extends AppCompatActivity {
     final ArrayList<String> arrayName = new ArrayList<String>();
     final ArrayList<String> arrayAddress = new ArrayList<String>();
     final ArrayList<String> arrayDistance = new ArrayList<String>();
@@ -133,7 +122,7 @@ public class FasilitasKesehatan extends AppCompatActivity {
                     final String[] stringArrayContact = arrayContact.toArray(new String[0]);
                     final String[] stringArrayDirection = arrayDirection.toArray(new String[0]);
 
-                    adapterFasilitasKesehatan = new AdapterFasilitasKesehatan(FasilitasKesehatan.this, stringArrayName, stringArrayDistance, new AdapterFasilitasKesehatan.ClickListener() {
+                    adapterFasilitasKesehatan = new AdapterFasilitasKesehatan(FasilitasKesehatanActivity.this, stringArrayName, stringArrayDistance, new AdapterFasilitasKesehatan.ClickListener() {
                         @Override
                         public void onPositionClicked(int position) {
                             showBottomSheet(stringArrayName[position], stringArrayAddress[position], stringArrayDistance[position], stringArrayContact[position], stringArrayDirection[position]);
@@ -141,7 +130,7 @@ public class FasilitasKesehatan extends AppCompatActivity {
                     });
 
                     recyclerView.setAdapter(adapterFasilitasKesehatan);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(FasilitasKesehatan.this));
+                    recyclerView.setLayoutManager(new LinearLayoutManager(FasilitasKesehatanActivity.this));
                 }
             }
         });
@@ -151,8 +140,9 @@ public class FasilitasKesehatan extends AppCompatActivity {
         TextView namePlace, addressPlace, distancePlace;
         Button buttonDial;
 
-        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(FasilitasKesehatan.this, R.style.BottomSheetDialogTheme);
-        View bottomSheetView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.layout_bottom_sheet_fasilitas_kesehatan, (LinearLayout) findViewById(R.id.bottomSheetContainer));
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(FasilitasKesehatanActivity.this, R.style.BottomSheetDialogTheme);
+        View bottomSheetView = LayoutInflater.from(getApplicationContext())
+                .inflate(R.layout.layout_bottom_sheet_fasilitas_kesehatan, (LinearLayout) findViewById(R.id.bottomSheetContainer));
 
         bottomSheetView.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override

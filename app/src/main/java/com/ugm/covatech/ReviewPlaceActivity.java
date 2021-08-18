@@ -4,10 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -19,19 +22,35 @@ import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.PhotoMetadata;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.FetchPhotoRequest;
+import com.google.android.libraries.places.api.net.FetchPhotoResponse;
+import com.google.android.libraries.places.api.net.FetchPlaceRequest;
+import com.google.android.libraries.places.api.net.FetchPlaceResponse;
+import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.ByteArrayOutputStream;
 import java.sql.Time;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -65,11 +84,16 @@ public class ReviewPlaceActivity extends AppCompatActivity {
     FirebaseFirestore fStore;
     Animation animFadeIn, animFadeOut;
 
+    Bitmap photoLocation;
+    FirebaseStorage storage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_place);
+
+        storage = FirebaseStorage.getInstance();
 
         animFadeIn = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.fade_in);
@@ -78,7 +102,6 @@ public class ReviewPlaceActivity extends AppCompatActivity {
 
         loadingAnimation = findViewById(R.id.loadingAnimation);
         doneAnimation = findViewById(R.id.doneAnimation);
-
 
 
         doneAnimation.setVisibility(View.GONE);
@@ -260,10 +283,10 @@ public class ReviewPlaceActivity extends AppCompatActivity {
                         int social_no = document.getDouble("social_no").intValue();
                         int mask_yes = document.getDouble("mask_yes").intValue();
                         int mask_no = document.getDouble("mask_no").intValue();
-                        write_to_db(total_start, total_user_review, fasilitas_yes, fasilitas_no, social_yes, social_no, mask_yes, mask_no);
+                        write_to_db(total_start, total_user_review, fasilitas_yes, fasilitas_no, social_yes, social_no, mask_yes, mask_no, false);
                     }
                     else{
-                        write_to_db(0,0,0,0,0,0,0,0);
+                        write_to_db(0,0,0,0,0,0,0,0, true);
                     }
                 }
             }
@@ -271,8 +294,8 @@ public class ReviewPlaceActivity extends AppCompatActivity {
     }
 
     public void write_to_db(int total_start, int total_user_review, int fasilitas_yes, int fasilitas_no, int social_yes,
-                            int social_no, int mask_yes, int mask_no) {
-        Map<String, Object> dataReview = new HashMap<>();
+                            int social_no, int mask_yes, int mask_no, boolean state_new_document) {
+        final Map<String, Object> dataReview = new HashMap<>();
         dataReview.put("total_star", total_start + valRating);
         dataReview.put("total_user_review", total_user_review + 1);
         dataReview.put("fasilitas_yes", fasilitas_yes + valFasilitasYes);
@@ -282,8 +305,71 @@ public class ReviewPlaceActivity extends AppCompatActivity {
         dataReview.put("mask_yes", mask_yes + valMaskYes);
         dataReview.put("mask_no", mask_no + valMaskNo);
 
+        if(state_new_document==true){
+            Places.initialize(getApplicationContext(),getResources().getString(R.string.api_key));
+            final PlacesClient placesClient = Places.createClient(this);
+
+            final List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.PHOTO_METADATAS, Place.Field.LAT_LNG);
+            final FetchPlaceRequest request = FetchPlaceRequest.builder(sPlaceID, placeFields).build();
+
+            placesClient.fetchPlace(request).addOnSuccessListener(new OnSuccessListener<FetchPlaceResponse>() {
+                @Override
+                public void onSuccess(FetchPlaceResponse fetchPlaceResponse) {
+                    Log.d("Data Places", fetchPlaceResponse.getPlace().toString());
+                    Place placesData = fetchPlaceResponse.getPlace();
+                    dataReview.put("place_name", placesData.getName());
+                    dataReview.put("place_address", placesData.getAddress());
+                    GeoPoint locationGeopoint = new GeoPoint(placesData.getLatLng().latitude, placesData.getLatLng().longitude);
+                    dataReview.put("place_location", locationGeopoint);
+
+                    final List<PhotoMetadata> metadata = placesData.getPhotoMetadatas();
+                    final PhotoMetadata photoMetadata = metadata.get(0);
+                    final String attributions = photoMetadata.getAttributions();
+
+                    final FetchPhotoRequest photoRequest = FetchPhotoRequest.builder(photoMetadata).build();
+                    placesClient.fetchPhoto(photoRequest).addOnSuccessListener(new OnSuccessListener<FetchPhotoResponse>() {
+                        @Override
+                        public void onSuccess(FetchPhotoResponse fetchPhotoResponse) {
+                            photoLocation = fetchPhotoResponse.getBitmap();
+                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            photoLocation.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                            StorageReference mStorageRef = storage.getReference();
+                            StorageReference imageRef = mStorageRef.child("location/" + sPlaceID);
+                            byte[] b = stream.toByteArray();
+                            imageRef.putBytes(b).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                    taskSnapshot.getMetadata().getReference().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            Uri downloadUri = uri;
+                                            dataReview.put("place_photo_url", downloadUri.toString());
+                                            write_to_document(dataReview);
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull @NotNull Exception e) {
+                    Log.d("LOG",e.toString());
+                }
+            });
+        }
+        else{
+            write_to_document(dataReview);
+        }
+
+    }
+
+    public void write_to_document(Map<String, Object> dataReview ){
         DocumentReference documentReference = fStore.collection("location").document(sPlaceID);
-        documentReference.set(dataReview).addOnSuccessListener(new OnSuccessListener<Void>() {
+        documentReference.set(dataReview, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
 
@@ -347,6 +433,5 @@ public class ReviewPlaceActivity extends AppCompatActivity {
 
             }
         });
-
     }
 }
