@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -14,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,6 +21,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -32,13 +31,14 @@ import com.google.zxing.WriterException;
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
 
-public class profile extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore db;
     Bitmap bitmap;
     QRGEncoder qrgEncoder;
 
     CardView cardViewLaporTest, cardViewLaporVaksinasi;
+    FloatingActionButton scanButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +51,21 @@ public class profile extends AppCompatActivity {
         cardViewLaporTest = findViewById(R.id.card_lapor_test);
         cardViewLaporVaksinasi = findViewById(R.id.card_lapor_vaksinasi);
 
+        scanButton = findViewById(R.id.addFab);
+
+        scanButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent nextActivity = new Intent(ProfileActivity.this, ScannerActivity.class);
+                nextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(nextActivity);
+            }
+        });
+
         cardViewLaporTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent homeActivity = new Intent(profile.this, UploadMedicalTestActivity.class);
+                Intent homeActivity = new Intent(ProfileActivity.this, UploadMedicalTestActivity.class);
                 homeActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(homeActivity);
             }
@@ -63,7 +74,7 @@ public class profile extends AppCompatActivity {
         cardViewLaporVaksinasi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent homeActivity = new Intent(profile.this, UploadVaccineTestActivity.class);
+                Intent homeActivity = new Intent(ProfileActivity.this, UploadVaccineTestActivity.class);
                 homeActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(homeActivity);
             }
@@ -165,7 +176,7 @@ public class profile extends AppCompatActivity {
     public void showQRCodeBottomSheet(String UID){
         ImageView qrImageBig;
 
-        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(profile.this, R.style.BottomSheetDialogTheme);
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(ProfileActivity.this, R.style.BottomSheetDialogTheme);
         View bottomSheetView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.layout_bottom_sheet_qrcode, (LinearLayout) findViewById(R.id.bottomSheetContainer));
 
         qrImageBig = bottomSheetView.findViewById(R.id.qr_big);
@@ -199,7 +210,7 @@ public class profile extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.home:
-                        Intent nextActivity =  new Intent(profile.this, MainActivity.class);
+                        Intent nextActivity =  new Intent(ProfileActivity.this, MainActivity.class);
                         nextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(nextActivity);
                         overridePendingTransition(0, 0);
