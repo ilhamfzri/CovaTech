@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
     FirebaseAuth fAuth;
     FirebaseFirestore db;
+    FloatingActionButton scanButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         textViewKasusPositif = findViewById(R.id.text_jumlah_positif);
         textViewKasusSembuh = findViewById(R.id.text_jumlah_sembuh);
         textViewKasusMeninggal = findViewById(R.id.text_jumlah_meninggal);
+        scanButton = findViewById(R.id.addFab);
 
         db = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
@@ -84,6 +87,15 @@ public class MainActivity extends AppCompatActivity {
         getLastLocation();
         getUserProfile();
         volleyGet();
+
+        scanButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent nextActivity = new Intent(MainActivity.this, ScannerActivity.class);
+                nextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(nextActivity);
+            }
+        });
 
         linearLayoutDataCovidPerProvinsi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +107,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void setReviewList(View view){
+        Intent nextActivity = new Intent(MainActivity.this, ReviewListActivity.class);
+        nextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(nextActivity);
+    }
+
     public void setCovaTribute(View view) {
         Intent nextActivity = new Intent(MainActivity.this, CovaTributeMain.class);
         nextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -102,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setFasilitas(View view) {
-        Intent nextActivity = new Intent(MainActivity.this, FasilitasKesehatan.class);
+        Intent nextActivity = new Intent(MainActivity.this, FasilitasKesehatanActivity.class);
         nextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(nextActivity);
     }
@@ -113,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(nextActivity);
     }
 
-    public void setCovaMaps(View view){
+    public void setCovaMaps(View view) {
         Intent nextActivity = new Intent(MainActivity.this, CovaMapsActivity.class);
         nextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(nextActivity);
@@ -127,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.profil:
-                        Intent nextActivity = new Intent(MainActivity.this, profile.class);
+                        Intent nextActivity = new Intent(MainActivity.this, ProfileActivity.class);
                         nextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(nextActivity);
                 }
