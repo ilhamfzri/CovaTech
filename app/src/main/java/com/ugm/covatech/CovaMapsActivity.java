@@ -3,13 +3,17 @@ package com.ugm.covatech;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -30,22 +34,31 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.SetOptions;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CovaMapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -56,11 +69,17 @@ public class CovaMapsActivity extends AppCompatActivity implements OnMapReadyCal
     private GoogleMap mMap;
     double currentLatitude;
     double currentLongitude;
+    MarkerOptions markerHome;
+
+    FirebaseFirestore db;
     FirebaseAuth fAuth;
+
     LatLng currentLocation;
     LatLng homeLocation;
+
     MaterialToolbar topBar;
-    FloatingActionButton floatingSetMap;
+    FloatingActionButton floatingSetMap, floatingSetHome, floatingSetCheck, floatingSetClear;
+    ExtendedFloatingActionButton extendedFloatingActionButtonEditHome;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,11 +88,100 @@ public class CovaMapsActivity extends AppCompatActivity implements OnMapReadyCal
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         topBar = findViewById(R.id.topAppBar);
         floatingSetMap = findViewById(R.id.floating_set_map);
+        floatingSetHome = findViewById(R.id.floating_set_home);
+        floatingSetCheck = findViewById(R.id.floating_set_check);
+        floatingSetClear = findViewById(R.id.floating_set_clear);
+
+        floatingSetCheck.setVisibility(View.GONE);
+        floatingSetClear.setVisibility(View.GONE);
+
+        extendedFloatingActionButtonEditHome = findViewById(R.id.extended_fab);
+
+        db = FirebaseFirestore.getInstance();
+        fAuth = FirebaseAuth.getInstance();
 
         floatingSetMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setMapType();
+            }
+        });
+
+        floatingSetHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(homeLocation,20));
+            }
+        });
+
+        extendedFloatingActionButtonEditHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final LatLng[] updateLocation = new LatLng[1];
+                mMap.clear();
+                floatingSetCheck.setVisibility(View.VISIBLE);
+                floatingSetClear.setVisibility(View.VISIBLE);
+                markerHome.title("Tekan Lalu Geser");
+                markerHome.draggable(true);
+                final LatLng current = markerHome.getPosition();
+                Marker marker = mMap.addMarker(markerHome);
+                marker.showInfoWindow();
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(markerHome.getPosition(),20));
+                updateLocation[0] = markerHome.getPosition();
+
+                mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+                    @Override
+                    public void onMarkerDragStart(Marker marker) {
+                        updateLocation[0] = marker.getPosition();
+                    }
+
+                    @Override
+                    public void onMarkerDrag(Marker marker) {
+                        updateLocation[0] = marker.getPosition();
+                    }
+
+                    @Override
+                    public void onMarkerDragEnd(Marker marker) {
+                        updateLocation[0] = marker.getPosition();
+                    }
+                });
+
+                floatingSetCheck.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        markerHome.position(updateLocation[0]);
+                        markerHome.draggable(false);
+                        mMap.clear();
+                        mMap.addMarker(markerHome);
+                        floatingSetCheck.setVisibility(View.GONE);
+                        floatingSetClear.setVisibility(View.GONE);
+
+                        String userUID = fAuth.getUid();
+                        DocumentReference docRef = db.collection("users").document(userUID);
+                        Map<String, Object> dataUpdate = new HashMap<>();
+                        GeoPoint newLocationGeopoint = new GeoPoint(markerHome.getPosition().latitude, markerHome.getPosition().longitude);
+                        dataUpdate.put("home_location", newLocationGeopoint);
+                        docRef.set(dataUpdate, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Toast.makeText(CovaMapsActivity.this, "Perubahan Berhasil!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+
+                    }
+                });
+                floatingSetClear.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mMap.clear();
+                        markerHome.position(current);
+                        markerHome.draggable(false);
+                        mMap.addMarker(markerHome);
+                        floatingSetCheck.setVisibility(View.GONE);
+                        floatingSetClear.setVisibility(View.GONE);
+                    }
+                });
             }
         });
 
@@ -95,20 +203,10 @@ public class CovaMapsActivity extends AppCompatActivity implements OnMapReadyCal
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
         getLastLocation();
-
+        loadUserData();
     }
+
 
     @SuppressLint("MissingPermission")
     private void getLastLocation() {
@@ -130,7 +228,7 @@ public class CovaMapsActivity extends AppCompatActivity implements OnMapReadyCal
 
 //                                    mMap.addMarker(new MarkerOptions().position(currentLocation).title("Lokasi Saat Ini"));
                                     mMap.setMyLocationEnabled(true);
-                                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 20));
+                                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
 
                                     Log.d("Current Location", "Latitude :" + Double.toString(currentLatitude) + ", Longitude : " + Double.toString(currentLongitude));
                                     Geocoder geoCoder = new Geocoder(CovaMapsActivity.this);
@@ -232,5 +330,37 @@ public class CovaMapsActivity extends AppCompatActivity implements OnMapReadyCal
 
         bottomSheetDialog.setContentView(bottomSheetView);
         bottomSheetDialog.show();
+    }
+
+    public void loadUserData(){
+        String userUID = fAuth.getUid();
+        DocumentReference docRef = db.collection("users").document(userUID);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if(document.exists()){
+                        GeoPoint geoPointHomeLocation = document.getGeoPoint("home_location");
+                        homeLocation = new LatLng(geoPointHomeLocation.getLatitude(), geoPointHomeLocation.getLongitude());
+                        markerHome = new MarkerOptions();
+                        markerHome.position(homeLocation);
+                        markerHome.title("Rumah");
+                        markerHome.icon(BitmapFromVector(getApplicationContext(), R.drawable.ic_baseline_home_24_marker));
+                        mMap.addMarker(markerHome);
+                    }
+                }
+            }
+        });
+
+    }
+
+    private BitmapDescriptor BitmapFromVector(Context context, int vectorResId) {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
+        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 }

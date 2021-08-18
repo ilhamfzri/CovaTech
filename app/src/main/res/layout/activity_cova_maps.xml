@@ -30,6 +30,7 @@
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <fragment xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:map="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/map"
@@ -37,22 +38,75 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 map:mapType="normal"
-                map:uiCompass="true">
-            </fragment>
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                app:backgroundTint="#FFFFFF"
-                android:id="@+id/floating_set_map"
+                map:uiCompass="true"></fragment>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|left"
-                android:layout_margin="16dp"
-                app:fabSize="mini"
-                app:tint = "@color/boxViolet"
-                app:srcCompat="@drawable/ic_baseline_map_24"/>
+                android:orientation="vertical">
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/floating_set_map"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:backgroundTint="#FFFFFF"
+                    app:fabSize="mini"
+                    app:srcCompat="@drawable/ic_baseline_map_24"
+                    app:tint="@color/boxViolet" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/floating_set_home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:backgroundTint="#FFFFFF"
+                    app:fabSize="mini"
+                    app:srcCompat="@drawable/ic_baseline_home_24"
+                    app:tint="@color/boxViolet" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:padding="15dp"
+                android:layout_gravity="bottom|right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    android:id="@+id/extended_fab"
+                    android:textColor="@color/boxViolet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:text="Edit Rumah"
+                    android:textAllCaps="false"
+                    app:backgroundTint="#FFFFFF"
+                    app:iconTint="@color/boxViolet"
+                    app:icon="@drawable/ic_baseline_push_pin_24" />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/floating_set_clear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:backgroundTint="#FFFFFF"
+                    app:fabSize="mini"
+                    app:srcCompat="@drawable/ic_baseline_clear_24"
+                    app:tint="@color/boxViolet" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/floating_set_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:backgroundTint="#FFFFFF"
+                    app:fabSize="mini"
+                    app:srcCompat="@drawable/ic_baseline_check_24"
+                    app:tint="@color/boxViolet" />
+
+            </LinearLayout>
+
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-
 
 
     </LinearLayout>

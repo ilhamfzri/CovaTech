@@ -97,27 +97,26 @@ public class Register extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             Toast.makeText(Register.this, "Email Verifikasi Telah Dikirim!", Toast.LENGTH_SHORT).show();
+                            String userID = fAuth.getCurrentUser().getUid();
+                            DocumentReference documentReference = fStore.collection("users").document(userID);
+
+                            // Save user data to firestore
+                            Map<String, Object> userData = new HashMap<>();
+                            userData.put("Name", vName);
+                            userData.put("Email", vEmail);
+                            userData.put("VaksinStatus", false);
+                            userData.put("CovidStatus", true);
+                            documentReference.set(userData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    fAuth.signOut();
+                                    Intent loginActivity = new Intent(Register.this, LoginActivity.class);
+                                    startActivity(loginActivity, ActivityOptions.makeSceneTransitionAnimation(Register.this).toBundle());
+                                }
+                            });
                         }
                     });
                 }
-
-                String userID = fAuth.getCurrentUser().getUid();
-                DocumentReference documentReference = fStore.collection("users").document(userID);
-
-                // Save user data to firestore
-                Map<String, Object> userData = new HashMap<>();
-                userData.put("Name", vName);
-                userData.put("Email", vEmail);
-                userData.put("VaksinStatus", false);
-                userData.put("CovidStatus", true);
-                documentReference.set(userData).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        fAuth.signOut();
-                        Intent loginActivity = new Intent(Register.this, LoginActivity.class);
-                        startActivity(loginActivity, ActivityOptions.makeSceneTransitionAnimation(Register.this).toBundle());
-                    }
-                });
             }
 
 
