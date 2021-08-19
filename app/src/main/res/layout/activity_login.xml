@@ -45,7 +45,6 @@
             app:startIconDrawable="@drawable/ic_baseline_email_24">
 
             <com.google.android.material.textfield.TextInputEditText
-
                 android:id="@+id/editEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -91,6 +90,7 @@
             android:translationY="-50dp">
 
             <TextView
+                android:textColor="#121212"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Lupa Password ?" />

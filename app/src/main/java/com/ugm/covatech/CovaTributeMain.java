@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -55,10 +56,23 @@ public class CovaTributeMain extends AppCompatActivity {
     ArrayList<Float> arrayRating = new ArrayList<Float>();
     ArrayList<Float> dump = new ArrayList<Float>();
 
+    MaterialToolbar topBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cova_tribute_main);
+
+        topBar = findViewById(R.id.topAppBar);
+
+        topBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent backActivity = new Intent(CovaTributeMain.this, MainActivity.class);
+                backActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(backActivity);
+            }
+        });
 
         notAvailableLayout = findViewById(R.id.layoutNotAvailable);
         availableLayout = findViewById(R.id.layoutAvailable);
@@ -197,6 +211,9 @@ public class CovaTributeMain extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(CovaTributeMain.this));
     }
 
-
-
+    public void onBackPressed(){
+        Intent backActivity = new Intent(CovaTributeMain.this, MainActivity.class);
+        backActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(backActivity);
+    }
 }

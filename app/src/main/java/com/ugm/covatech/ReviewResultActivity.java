@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,6 +37,7 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.FetchPlaceRequest;
 import com.google.android.libraries.places.api.net.FetchPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -51,6 +53,7 @@ import org.jetbrains.annotations.NotNull;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
@@ -61,6 +64,9 @@ public class ReviewResultActivity extends AppCompatActivity {
     MaterialRatingBar ratingPlaces;
     ImageView imagePlace;
     FirebaseStorage storage;
+    MaterialButton buttonForward, buttonBack;
+    int ulasanSize = -1;
+    int ulasanPosition = 0;
 
     final ArrayList<String> arrayReviewer = new ArrayList<String>();
     final ArrayList<String> arrayKomentar = new ArrayList<String>();
@@ -72,6 +78,11 @@ public class ReviewResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_review_result);
 
         final String placeID = "ChIJ28oUxKZZei4R98SeIRpCSRk";
+
+        buttonBack = findViewById(R.id.button_back);
+        buttonForward = findViewById(R.id.button_forward);
+        buttonBack.setEnabled(false);
+        buttonForward.setEnabled(true);
 
         storage = FirebaseStorage.getInstance();
         firestore = FirebaseFirestore.getInstance();
@@ -134,14 +145,25 @@ public class ReviewResultActivity extends AppCompatActivity {
                                             for (QueryDocumentSnapshot document : task.getResult()) {
 
                                                 Timestamp timestamp = document.getTimestamp("date");
-                                                String pattern = "hh:mm a";
+                                                Date date = timestamp.toDate();
+
+                                                String pattern = "d MMMM yyyy";
                                                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-                                                String stringTanggal = simpleDateFormat.format(timestamp);
+                                                String stringTanggal = simpleDateFormat.format(date);
+
+                                                Log.d("document_id", document.getId());
+                                                Log.d("user_name", document.getString("user_name"));
+                                                Log.d("ulasan", document.getString("ulasan"));
+                                                Log.d("date", stringTanggal);
 
                                                 arrayReviewer.add(document.getString("user_name"));
                                                 arrayKomentar.add(document.getString("ulasan"));
                                                 arrayTanggal.add(stringTanggal);
                                             }
+                                            ulasanSize = arrayReviewer.size();
+                                            showUlasanData(ulasanPosition);
+                                            checkButton();
+                                            ulasanController();
                                         }
                                     }
                                 });
@@ -149,7 +171,48 @@ public class ReviewResultActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    public void ulasanController() {
+
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ulasanPosition = ulasanPosition - 1;
+                showUlasanData(ulasanPosition);
+                checkButton();
+            }
+        });
+
+        buttonForward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ulasanPosition = ulasanPosition + 1;
+                showUlasanData(ulasanPosition);
+                checkButton();
+            }
+        });
+}
+
+    public void showUlasanData(int position) {
+        textViewReviewer.setText(arrayReviewer.get(position));
+        textViewKomentar.setText(arrayKomentar.get(position));
+        textViewTanggalKomentar.setText(arrayTanggal.get(position));
+    }
+
+    public void checkButton() {
+        Log.d("ulasan_size", Integer.toString(ulasanSize));
+        Log.d("ulasan_position", Integer.toString(ulasanPosition));
+        if (ulasanPosition == 0) {
+            buttonBack.setEnabled(false);
+        } else {
+            buttonBack.setEnabled(true);
+        }
+        if (ulasanPosition == ulasanSize - 1) {
+            buttonForward.setEnabled(false);
+        } else {
+            buttonForward.setEnabled(true);
+        }
 
     }
 

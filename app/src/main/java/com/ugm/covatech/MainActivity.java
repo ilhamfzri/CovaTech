@@ -32,6 +32,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.provider.Settings;
 import android.util.Log;
@@ -71,8 +72,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         linearLayoutDataCovidPerProvinsi = findViewById(R.id.linearLayout_data_covid_per_provinsi);
+
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            }, 5);
+        }
 
         textViewKasusPositif = findViewById(R.id.text_jumlah_positif);
         textViewKasusSembuh = findViewById(R.id.text_jumlah_sembuh);
@@ -83,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+        setBackgroundService();
         setupBottomNavigationView();
         getLastLocation();
         getUserProfile();
@@ -291,6 +298,13 @@ public class MainActivity extends AppCompatActivity {
 
         requestQueue.add(jsonArrayRequest);
 
+    }
+
+    public void setBackgroundService(){
+        String input = "Test";
+        Intent serviceIntent = new Intent(this, BackgroundTrackerServices.class);
+        serviceIntent.putExtra("inputExtra", input);
+        ContextCompat.startForegroundService(this, serviceIntent);
     }
 
 

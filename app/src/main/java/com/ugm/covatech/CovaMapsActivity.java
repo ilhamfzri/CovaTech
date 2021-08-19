@@ -80,6 +80,7 @@ public class CovaMapsActivity extends AppCompatActivity implements OnMapReadyCal
     MaterialToolbar topBar;
     FloatingActionButton floatingSetMap, floatingSetHome, floatingSetCheck, floatingSetClear;
     ExtendedFloatingActionButton extendedFloatingActionButtonEditHome;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,7 +111,7 @@ public class CovaMapsActivity extends AppCompatActivity implements OnMapReadyCal
         floatingSetHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(homeLocation,20));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(homeLocation, 20));
             }
         });
 
@@ -126,7 +127,7 @@ public class CovaMapsActivity extends AppCompatActivity implements OnMapReadyCal
                 final LatLng current = markerHome.getPosition();
                 Marker marker = mMap.addMarker(markerHome);
                 marker.showInfoWindow();
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(markerHome.getPosition(),20));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(markerHome.getPosition(), 20));
                 updateLocation[0] = markerHome.getPosition();
 
                 mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
@@ -284,7 +285,7 @@ public class CovaMapsActivity extends AppCompatActivity implements OnMapReadyCal
         }
     }
 
-    public void setMapType(){
+    public void setMapType() {
         ImageView imageViewSatellite, imageViewTerrain;
         TextView textViewSatellite, textViewTerrain;
         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(CovaMapsActivity.this, R.style.BottomSheetDialogTheme);
@@ -296,13 +297,12 @@ public class CovaMapsActivity extends AppCompatActivity implements OnMapReadyCal
         textViewSatellite = bottomSheetView.findViewById(R.id.textview_satellite);
         textViewTerrain = bottomSheetView.findViewById(R.id.textview_street);
 
-        if(stringMapType=="street"){
+        if (stringMapType == "street") {
             imageViewTerrain.setBackgroundColor(Color.parseColor("#502BA7"));
             textViewTerrain.setTextColor(Color.parseColor("#502BA7"));
             imageViewSatellite.setBackgroundColor(Color.parseColor("#FFFFFF"));
             textViewSatellite.setTextColor(Color.parseColor("#121212"));
-        }
-        else{
+        } else {
             imageViewSatellite.setBackgroundColor(Color.parseColor("#502BA7"));
             textViewSatellite.setTextColor(Color.parseColor("#502BA7"));
             imageViewTerrain.setBackgroundColor(Color.parseColor("#FFFFFF"));
@@ -313,7 +313,7 @@ public class CovaMapsActivity extends AppCompatActivity implements OnMapReadyCal
         imageViewSatellite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                stringMapType="satellite";
+                stringMapType = "satellite";
                 bottomSheetDialog.dismiss();
                 mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
             }
@@ -322,7 +322,7 @@ public class CovaMapsActivity extends AppCompatActivity implements OnMapReadyCal
         imageViewTerrain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                stringMapType="street";
+                stringMapType = "street";
                 bottomSheetDialog.dismiss();
                 mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
             }
@@ -332,15 +332,15 @@ public class CovaMapsActivity extends AppCompatActivity implements OnMapReadyCal
         bottomSheetDialog.show();
     }
 
-    public void loadUserData(){
+    public void loadUserData() {
         String userUID = fAuth.getUid();
         DocumentReference docRef = db.collection("users").document(userUID);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    if(document.exists()){
+                    if (document.exists()) {
                         GeoPoint geoPointHomeLocation = document.getGeoPoint("home_location");
                         homeLocation = new LatLng(geoPointHomeLocation.getLatitude(), geoPointHomeLocation.getLongitude());
                         markerHome = new MarkerOptions();

@@ -31,6 +31,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -57,6 +58,7 @@ public class FasilitasKesehatanActivity extends AppCompatActivity {
     double currentLatitude;
     double currentLongitude;
 
+    MaterialToolbar topBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,17 @@ public class FasilitasKesehatanActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mShimmerViewContainer = findViewById(R.id.shimmerFrameLayout);
+
+        topBar = findViewById(R.id.topAppBar);
+
+        topBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent backActivity = new Intent(FasilitasKesehatanActivity.this, MainActivity.class);
+                backActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(backActivity);
+            }
+        });
 
         handler = new Handler();
         handler.postDelayed(new Runnable() {

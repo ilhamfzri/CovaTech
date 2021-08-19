@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +16,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -33,6 +35,7 @@ import com.google.android.libraries.places.api.net.FetchPhotoResponse;
 import com.google.android.libraries.places.api.net.FetchPlaceRequest;
 import com.google.android.libraries.places.api.net.FetchPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -79,11 +82,13 @@ public class ReviewPlaceActivity extends AppCompatActivity {
     EditText editTextReview;
     String sPlaceName, sPlaceID, sDocumentUID;
 
+    MaterialToolbar topBar;
 
     Handler handler;
     FirebaseFirestore fStore;
     Animation animFadeIn, animFadeOut;
 
+    ImageView imageLocation;
     Bitmap photoLocation;
     FirebaseStorage storage;
 
@@ -100,6 +105,17 @@ public class ReviewPlaceActivity extends AppCompatActivity {
         animFadeOut = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.fade_out);
 
+        topBar = findViewById(R.id.topAppBar);
+
+        topBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent backActivity = new Intent(ReviewPlaceActivity.this, CovaTributeMain.class);
+                backActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(backActivity);
+            }
+        });
+
         loadingAnimation = findViewById(R.id.loadingAnimation);
         doneAnimation = findViewById(R.id.doneAnimation);
 
@@ -108,6 +124,8 @@ public class ReviewPlaceActivity extends AppCompatActivity {
 
         loadingStatus = findViewById(R.id.loadingStatus);
         loadingStatus.setText("Mohon Tunggu");
+
+        imageLocation = findViewById(R.id.image_place);
 
         loadingDescription = findViewById(R.id.textDescription);
         loadingDescription.setVisibility(View.GONE);
@@ -145,6 +163,22 @@ public class ReviewPlaceActivity extends AppCompatActivity {
 
         mRating = findViewById(R.id.ratingBar);
         mRating.getRating();
+
+        StorageReference storageRef = storage.getReference().child("location")
+                .child(sPlaceID);
+
+        storageRef.getBytes(1024 * 1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                imageLocation.setImageBitmap(bitmap);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull @NotNull Exception e) {
+
+            }
+        });
 
         editTextReview = findViewById(R.id.reviewBox);
 

@@ -14,21 +14,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.lang.ref.WeakReference;
 
 public class AdapterCovaTrace extends RecyclerView.Adapter<AdapterCovaTrace.MyViewHolder> {
-    String data1[],data2[];
+    String data1[], data2[];
     Context context;
     private final ClickListener listener;
-    public AdapterCovaTrace(Context ct, String sName[], String sTime[], ClickListener listener){
-        this.listener=listener;
-        context=ct;
-        data1=sName;
-        data2=sTime;
+
+    public AdapterCovaTrace(Context ct, String sName[], String sTime[], ClickListener listener) {
+        this.listener = listener;
+        context = ct;
+        data1 = sName;
+        data2 = sTime;
 
     }
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.row_adapter_covatrace,parent,false);
+        View view = inflater.inflate(R.layout.row_adapter_covatrace, parent, false);
         return new MyViewHolder(view);
     }
 
@@ -48,8 +50,8 @@ public class AdapterCovaTrace extends RecyclerView.Adapter<AdapterCovaTrace.MyVi
         return data1.length;
     }
 
-    public class MyViewHolder extends  RecyclerView.ViewHolder {
-        TextView placeName,placeTime;
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView placeName, placeTime;
         LinearLayout layout;
         private WeakReference<ClickListener> listenerRef;
 
@@ -57,8 +59,8 @@ public class AdapterCovaTrace extends RecyclerView.Adapter<AdapterCovaTrace.MyVi
             super(itemView);
             listenerRef = new WeakReference<>(listener);
             placeName = itemView.findViewById(R.id.namePlace);
-            placeTime =itemView.findViewById(R.id.timeRange);
-            layout=itemView.findViewById(R.id.layout);
+            placeTime = itemView.findViewById(R.id.timeRange);
+            layout = itemView.findViewById(R.id.layout);
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

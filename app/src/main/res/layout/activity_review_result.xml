@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_semibold"
-                android:text="Cafe Sobat Ambyar"
+                android:text=""
                 android:textColor="#000000"
                 android:textSize="20dp"></TextView>
 
@@ -71,8 +71,7 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/poppins_light"
                 android:maxLines="2"
-                android:text="Jl. Kalung Emas, No.01 , Desa Sinduadi,
-Kecamatan Mlati, Kabupaten Sleman, Yogyakarta"
+                android:text=""
                 android:textColor="#000000"
                 android:textSize="15dp"></TextView>
 
@@ -125,7 +124,7 @@ Kecamatan Mlati, Kabupaten Sleman, Yogyakarta"
                             android:layout_weight="1"
                             android:background="#2ECC71"
                             android:fontFamily="@font/poppins"
-                            android:text="123"
+                            android:text=""
                             android:textAlignment="center"
                             android:textColor="#FFFFFF"></TextView>
 
@@ -136,7 +135,7 @@ Kecamatan Mlati, Kabupaten Sleman, Yogyakarta"
                             android:layout_weight="1"
                             android:background="#FF1800"
                             android:fontFamily="@font/poppins"
-                            android:text="123"
+                            android:text=""
                             android:textAlignment="center"
                             android:textColor="#FFFFFF"></TextView>
                     </LinearLayout>
@@ -177,7 +176,7 @@ Kecamatan Mlati, Kabupaten Sleman, Yogyakarta"
                             android:layout_weight="1"
                             android:background="#2ECC71"
                             android:fontFamily="@font/poppins"
-                            android:text="123"
+                            android:text=""
                             android:textAlignment="center"
                             android:textColor="#FFFFFF"></TextView>
 
@@ -188,7 +187,7 @@ Kecamatan Mlati, Kabupaten Sleman, Yogyakarta"
                             android:layout_weight="1"
                             android:background="#FF1800"
                             android:fontFamily="@font/poppins"
-                            android:text="123"
+                            android:text=""
                             android:textAlignment="center"
                             android:textColor="#FFFFFF"></TextView>
                     </LinearLayout>
@@ -230,7 +229,7 @@ Kecamatan Mlati, Kabupaten Sleman, Yogyakarta"
                             android:layout_weight="1"
                             android:background="#2ECC71"
                             android:fontFamily="@font/poppins"
-                            android:text="123"
+                            android:text=""
                             android:textAlignment="center"
                             android:textColor="#FFFFFF"></TextView>
 
@@ -241,7 +240,7 @@ Kecamatan Mlati, Kabupaten Sleman, Yogyakarta"
                             android:layout_weight="1"
                             android:background="#FF1800"
                             android:fontFamily="@font/poppins"
-                            android:text="123"
+                            android:text=""
                             android:textAlignment="center"
                             android:textColor="#FFFFFF"></TextView>
                     </LinearLayout>
@@ -306,7 +305,7 @@ Kecamatan Mlati, Kabupaten Sleman, Yogyakarta"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fontFamily="@font/poppins_semibold"
-                        android:text="Ilham Fazri"
+                        android:text=""
                         android:textColor="#131313"
                         android:textSize="15dp"></TextView>
 
@@ -317,7 +316,7 @@ Kecamatan Mlati, Kabupaten Sleman, Yogyakarta"
                         android:layout_marginRight="15dp"
                         android:ellipsize="end"
                         android:fontFamily="@font/poppins"
-                        android:text="Tempat yang bersih dan ketat prokes1 mantap jiowa pokoknya mantul"
+                        android:text=""
                         android:textColor="#131313"
                         android:textSize="12dp"></TextView>
 
@@ -327,7 +326,7 @@ Kecamatan Mlati, Kabupaten Sleman, Yogyakarta"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins"
                         android:gravity="right"
-                        android:text="22 Maret 2021"
+                        android:text=""
                         android:textAllCaps="false"
                         android:textColor="#AAAAAA"
                         android:textSize="12dp"></TextView>
