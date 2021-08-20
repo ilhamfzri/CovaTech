@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -23,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -50,6 +53,8 @@ import com.google.firebase.storage.UploadTask;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.net.URL;
 import java.sql.Time;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -164,22 +169,6 @@ public class ReviewPlaceActivity extends AppCompatActivity {
         mRating = findViewById(R.id.ratingBar);
         mRating.getRating();
 
-        StorageReference storageRef = storage.getReference().child("location")
-                .child(sPlaceID);
-
-        storageRef.getBytes(1024 * 1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                imageLocation.setImageBitmap(bitmap);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull @NotNull Exception e) {
-
-            }
-        });
-
         editTextReview = findViewById(R.id.reviewBox);
 
         reviewButton = findViewById(R.id.button);
@@ -199,13 +188,33 @@ public class ReviewPlaceActivity extends AppCompatActivity {
                             sendToDatabase();
                         }
                     },4000);
-
-
                 }
             }
         });
-
+        loadImage();
     }
+
+    public void loadImage(){
+            DocumentReference documentReference = fStore.collection("location").document(sPlaceID);
+            documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            String photo_url = document.getString("place_photo_url");
+                            if(TextUtils.isEmpty(photo_url)){
+
+                            }
+                            else{
+                                Glide.with(ReviewPlaceActivity.this).load(photo_url).into(imageLocation);
+
+                            }
+                        }
+                    }
+                }
+            });
+        }
 
     @Override
     public void onBackPressed() {
@@ -467,5 +476,15 @@ public class ReviewPlaceActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public static Drawable LoadImageFromWebOperations(String url) {
+        try {
+            InputStream is = (InputStream) new URL(url).getContent();
+            Drawable d = Drawable.createFromStream(is, "src name");
+            return d;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
