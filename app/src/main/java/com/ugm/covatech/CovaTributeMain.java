@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.anychart.core.stock.series.Stick;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -41,9 +42,9 @@ public class CovaTributeMain extends AppCompatActivity {
     FirebaseFirestore db;
     FirebaseAuth firebaseAuth;
     Boolean loadLocationState = false;
-    float place_rating = (float) 0.0;
     String sUserFullname;
     int i;
+    int countState = 0;
 
     LinearLayout notAvailableLayout, availableLayout;
 
@@ -91,13 +92,13 @@ public class CovaTributeMain extends AppCompatActivity {
         mShimmerViewContainer = findViewById(R.id.shimmerFrameLayout);
         mShimmerViewContainer.startShimmerAnimation();
 
-        handler=new Handler();
+        handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 setViewLastLocation();
             }
-        },1000);
+        }, 1000);
 
     }
 
@@ -112,7 +113,8 @@ public class CovaTributeMain extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         //Cek Apakah Sudah di Review
-                        if(document.getBoolean("review_state")==false){
+
+                        if (document.getBoolean("review_state") == false) {
                             Log.d("Place", document.getString("place_name"));
 
                             Timestamp startTime = document.getTimestamp("start_time");
@@ -125,62 +127,59 @@ public class CovaTributeMain extends AppCompatActivity {
                             Date dateStartTime = startTime.toDate();
                             String sStartTime = simpleDateFormat.format(dateStartTime);
 
-                            arrayPlaceID.add(document.getString("place_id"));
-                            arrayNamePlace.add(document.getString("place_name"));
-                            arrayAddress.add("Dikunjungi : " + sStartTime);
-                            arrayDocumentUID.add(document.getId());
+                            writePlaceToArray(document.getString("place_id"), document.getString("place_name"), "Dikunjungi : " + sStartTime, document.getId(), task.getResult().size());
+                        }
+                        else{
+                            countState = countState + 1;
                         }
                     }
                 }
-                loadLocationState = true;
-                Log.d("STATE", loadLocationState.toString());
-                if(arrayPlaceID.size()>0){
-                    getPlaceRating();
-                }
-                else{
-                    notAvailableLayout.setVisibility(View.VISIBLE);
-                    availableLayout.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    public void writePlaceToArray(final String place_id, final String place_name, final String place_time, final String document_id, final int taskResultSize) {
+        db.collection("location").document(place_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
+                float place_rating = 0;
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Double total_star = document.getDouble("total_star");
+                        Double total_user_review = document.getDouble("total_user_review");
+                        if (total_star != null && total_user_review != null) {
+                            place_rating = total_star.floatValue() / total_user_review.floatValue();
+                        }
+                    } else {
+                        place_rating = 0;
+                    }
+                    arrayRating.add(place_rating);
+                    arrayPlaceID.add(place_id);
+                    arrayNamePlace.add(place_name);
+                    arrayAddress.add(place_time);
+                    arrayDocumentUID.add(document_id);
+                    countState = countState + 1;
+                    if(taskResultSize==countState){
+                        Log.d("SIZE", Integer.toString(arrayNamePlace.size()));
+                        Log.d("Data", arrayNamePlace.toString());
+                        loadLocationState = true;
+                        Log.d("STATE", loadLocationState.toString());
+                        if(arrayNamePlace.size()==0){
+                            notAvailableLayout.setVisibility(View.VISIBLE);
+                            availableLayout.setVisibility(View.GONE);
+                        }
+                        else{
+                            setRecyclerView();
+                        }
+                    }
                 }
             }
         });
     }
 
 
-    public void getPlaceRating(){
-        for(i=0; i<arrayPlaceID.size(); i++){
-            final String place_id = arrayPlaceID.get(i);
-            db.collection("location").document(place_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
-                    int index = i;
-                    if(task.isSuccessful()){
-                        DocumentSnapshot document = task.getResult();
-                        if(document.exists()) {
-                            Log.d("Document ID", document.getId());
-                            Log.d("Index", Integer.toString(index));
-                            Double total_star = document.getDouble("total_star");
-                            Double total_user_review = document.getDouble("total_user_review");
-                            if(total_star!=null && total_user_review!=null){
-                                place_rating = total_star.floatValue()/total_user_review.floatValue();
-                                arrayRating.set(arrayPlaceID.indexOf(place_id), place_rating);
-                            }
-                            Log.d("ArrayRating", arrayRating.toString() + dump.toString());
-                            dump.add((float) 0.0);
-                        }
-                        else{
-                            arrayRating.set(index, (float) 0.0);
-                            dump.add((float) 0.0);
-                        }
-                    }
-                    if(dump.size()==arrayPlaceID.size()){
-                        setRecyclerView();
-                    }
-                }
-            });
-        }
-    }
-
-    public void setRecyclerView(){
+    public void setRecyclerView() {
         final String[] stringLocationName = arrayNamePlace.toArray(new String[0]);
         final String[] stringAddress = arrayAddress.toArray(new String[0]);
         final Float[] floatRating = arrayRating.toArray(new Float[0]);
@@ -211,7 +210,7 @@ public class CovaTributeMain extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(CovaTributeMain.this));
     }
 
-    public void onBackPressed(){
+    public void onBackPressed() {
         Intent backActivity = new Intent(CovaTributeMain.this, MainActivity.class);
         backActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(backActivity);
