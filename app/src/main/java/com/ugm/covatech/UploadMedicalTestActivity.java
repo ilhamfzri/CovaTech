@@ -323,7 +323,7 @@ public class UploadMedicalTestActivity extends AppCompatActivity {
                                 document(collection_id);
 
                         final Map<String, Object> dataTest = new HashMap<>();
-
+                        dataTest.put("nama", valNamaLengkap);
                         dataTest.put("user_id", varUserUID);
                         dataTest.put("nik", valNIK);
                         dataTest.put("instansi_kesehatan", valInstansiKesehatan);
