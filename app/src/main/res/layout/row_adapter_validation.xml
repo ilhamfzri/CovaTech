@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="20dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginBottom="5dp"
+    android:background="@drawable/box_icon_tentang_kami"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="12dp"
+        android:elevation="120dp"
+        android:src="@drawable/ic_surveikepuasanpenggunaicon"></ImageView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_document_id"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ellipsize="end"
+            android:fontFamily="@font/poppins_semibold"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:text="1627927302BTVQ19xAjyYBCdx5pZp1sr39bV42"
+            android:textColor="#131313"
+            android:textSize="15dp"></TextView>
+
+        <TextView
+            android:id="@+id/text_user_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="15dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/poppins"
+            android:singleLine="true"
+            android:text="User ID : BTVQ19xAjyYBCdx5pZp1sr39bV42"
+            android:textColor="#131313"
+            android:textSize="12dp"></TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/text_tanggal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:fontFamily="@font/poppins"
+                android:text="21 Agustus 2021"
+                android:textColor="#131313"
+                android:textSize="12dp"></TextView>
+
+            <TextView
+                android:id="@+id/button_validasi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/ic_button_costum_4"
+                android:fontFamily="@font/poppins"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="Validasi"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="12dp"></TextView>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
