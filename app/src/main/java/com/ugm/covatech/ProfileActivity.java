@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ public class ProfileActivity extends AppCompatActivity {
     FirebaseFirestore db;
     Bitmap bitmap;
     QRGEncoder qrgEncoder;
+    Button buttonAdminValidation;
 
     CardView cardViewLaporTest, cardViewLaporVaksinasi;
     FloatingActionButton scanButton;
@@ -50,6 +52,8 @@ public class ProfileActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         cardViewLaporTest = findViewById(R.id.card_lapor_test);
         cardViewLaporVaksinasi = findViewById(R.id.card_lapor_vaksinasi);
+
+        buttonAdminValidation = findViewById(R.id.button_admin);
 
         scanButton = findViewById(R.id.addFab);
 
@@ -77,6 +81,15 @@ public class ProfileActivity extends AppCompatActivity {
                 Intent homeActivity = new Intent(ProfileActivity.this, UploadVaccineTestActivity.class);
                 homeActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(homeActivity);
+            }
+        });
+
+        buttonAdminValidation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent adminActivity = new Intent(ProfileActivity.this, AdminValidationActivity.class);
+                adminActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(adminActivity);
             }
         });
 
