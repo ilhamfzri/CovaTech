@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HasilTestValidationActivity">
+
+    <LinearLayout
+        android:id="@+id/loading_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/loadingAnimation"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading"
+            app:lottie_speed="2" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/doneAnimation"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            app:lottie_autoPlay="true"
+            app:lottie_rawRes="@raw/done" />
+
+
+
+        <TextView
+            android:id="@+id/loadingStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Success"
+            android:textColor="#6C4EF9"
+            android:textSize="20dp"></TextView>
+
+        <Button
+            android:id="@+id/button_home"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="120dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/ic_button_costum_1"
+            android:text="Kembali ke Menu"
+            android:textAllCaps="false"
+            android:textColor="@color/whitePlain"
+            android:textSize="10dp"></Button>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/main_layout"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/topAppBar"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+                app:navigationIconTint="#FFFFFF"
+                app:title="Validasi Hasil Test"
+                app:titleCentered="true"
+                app:titleTextAppearance="?attr/textAppearanceSubtitle2" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="20dp"
+            android:hint="Nama Lengkap"
+            android:padding="0dp"
+            app:helperTextTextColor="#FF0000"
+            app:startIconCheckable="true"
+            app:startIconDrawable="@drawable/ic_baseline_assignment_ind_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edittext_nama_lengkap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="15dp"
+                android:fontFamily="@font/poppins"
+                android:inputType="textPersonName"
+                android:padding="0dp"
+                android:textSize="12dp"></com.google.android.material.textfield.TextInputEditText>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
+            android:hint="Nomor Induk Kependudukan (NIK)"
+            app:helperTextTextColor="#FF0000"
+            app:startIconCheckable="true"
+            app:startIconDrawable="@drawable/ic_baseline_credit_card_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edittext_nik"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="15dp"
+                android:fontFamily="@font/poppins"
+                android:inputType="number"
+                android:textSize="12dp"></com.google.android.material.textfield.TextInputEditText>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
+            android:hint="Instansi Kesehatan"
+            app:helperTextTextColor="#FF0000"
+            app:startIconCheckable="true"
+            app:startIconDrawable="@drawable/ic_baseline_local_hospital_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edittext_tempat_test"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="15dp"
+                android:fontFamily="@font/poppins"
+                android:imeOptions="actionDone"
+                android:inputType="textPersonName"
+                android:textSize="12dp"></com.google.android.material.textfield.TextInputEditText>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
+            android:hint="Tanggal Pemeriksaan"
+            app:helperTextTextColor="#FF0000"
+            app:startIconCheckable="true"
+            app:startIconDrawable="@drawable/ic_baseline_date_range_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edittext_tanggal_vaksin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cursorVisible="false"
+                android:drawablePadding="15dp"
+                android:fontFamily="@font/poppins"
+                android:imeOptions="actionDone"
+                android:inputType="none"
+                android:textSize="12dp"></com.google.android.material.textfield.TextInputEditText>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
+            android:hint="Jenis Pemeriksaan"
+            app:helperTextTextColor="#FF0000"
+            app:startIconCheckable="true"
+            app:startIconDrawable="@drawable/ic_baseline_science_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edittext_jenis_vaksin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cursorVisible="false"
+                android:drawablePadding="15dp"
+                android:fontFamily="@font/poppins"
+                android:imeOptions="actionDone"
+                android:inputType="none"
+                android:textSize="12dp"></com.google.android.material.textfield.TextInputEditText>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_document"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:drawableEnd="@drawable/ic_baseline_camera_alt_24"
+            android:drawableTint="#FFFFFF"
+            android:fontFamily="@font/poppins"
+            android:text="Lihat Dokumen"
+            android:textAllCaps="false"></com.google.android.material.button.MaterialButton>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="#6045E2"
+                android:gravity="center|bottom"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:id="@+id/checkbox_pernyataan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp"
+                    android:buttonTint="#FFFFFF"
+                    android:fontFamily="@font/poppins_light"
+                    android:gravity="top"
+                    android:paddingLeft="10dp"
+                    android:text="Dengan ini menyatakan bahwa keputusan yang saya buat sesuai dengan bukti pada dokumen yang dikirim oleh pengguna"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12dp"></CheckBox>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="25dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:id="@+id/button_tolak_laporan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="15dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/ic_button_costum_1"
+                        android:backgroundTint="#FF1800"
+                        android:fontFamily="@font/poppins_medium"
+                        android:gravity="center"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:text="Tolak Laporan"
+                        android:textAllCaps="false"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13dp"></TextView>
+
+                    <TextView
+                        android:id="@+id/button_terima_laporan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_gravity="right"
+                        android:layout_marginBottom="15dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/ic_button_costum_1"
+                        android:backgroundTint="#2ECC71"
+                        android:fontFamily="@font/poppins_medium"
+                        android:gravity="center"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:text="Terima Laporan"
+                        android:textAllCaps="false"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13dp"></TextView>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
