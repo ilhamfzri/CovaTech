@@ -161,6 +161,10 @@ public class AdminValidationActivity extends AppCompatActivity {
                         @Override
                         public void onPositionClicked(int position) {
                             Log.d("Document ID Clicked : ", arrayLaporanID.get(position));
+                            Intent hasilTestIntent = new Intent(AdminValidationActivity.this, VacineValidationActivity.class);
+                            hasilTestIntent.putExtra("document_uid", arrayLaporanID.get(position));
+                            hasilTestIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            startActivity(hasilTestIntent);
                         }
                     });
                     recyclerViewTest.setAdapter(adapterValidasiData);
