@@ -36,6 +36,7 @@ import com.google.firebase.firestore.SetOptions;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -210,6 +211,7 @@ public class HasilTestValidationActivity extends AppCompatActivity {
             public void onSuccess(Void unused) {
                 Log.d("LOG", "Data Berhasil di Tolak!");
                 Map<String, Object> dataUpdateNotificationUserRef= new HashMap<>();
+                dataUpdateNotificationUserRef.put("notification_time", Timestamp.now());
                 dataUpdateNotificationUserRef.put("notification_type", "LAPORAN");
                 dataUpdateNotificationUserRef.put("tanggal_laporan", tanggalLaporanNotification);
                 dataUpdateNotificationUserRef.put("jenis_laporan", "Laporan Test COVID-19");
@@ -322,6 +324,7 @@ public class HasilTestValidationActivity extends AppCompatActivity {
                                         for(int i=0; i< arrayPlaceID.size(); i ++){
                                             String documentNotificationID = Long.toString(Timestamp.now().getSeconds()) + arrayPlaceID.get(i);
                                             Map<String, Object> dataUpdateNotification= new HashMap<>();
+                                            dataUpdateNotification.put("notification_time", Timestamp.now());
                                             dataUpdateNotification.put("place_id", arrayPlaceID.get(i));
                                             dataUpdateNotification.put("start_time", arrayTimestampStart.get(i));
                                             dataUpdateNotification.put("end_time", arrayTimestampEnd.get(i));
@@ -336,6 +339,7 @@ public class HasilTestValidationActivity extends AppCompatActivity {
                                         }
 
                                         Map<String, Object> dataUpdateNotificationUserRef= new HashMap<>();
+                                        dataUpdateNotificationUserRef.put("notification_time", Timestamp.now());
                                         dataUpdateNotificationUserRef.put("notification_type", "LAPORAN");
                                         dataUpdateNotificationUserRef.put("tanggal_laporan", tanggalLaporanNotification);
                                         dataUpdateNotificationUserRef.put("jenis_laporan", "Laporan Test COVID-19");
@@ -385,6 +389,7 @@ public class HasilTestValidationActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(Void unused) {
                     Map<String, Object> dataUpdateNotificationUserRef= new HashMap<>();
+                    dataUpdateNotificationUserRef.put("notification_time", Timestamp.now());
                     dataUpdateNotificationUserRef.put("notification_type", "LAPORAN");
                     dataUpdateNotificationUserRef.put("tanggal_laporan", tanggalLaporanNotification);
                     dataUpdateNotificationUserRef.put("jenis_laporan", "Laporan Test COVID-19");
