@@ -77,7 +77,7 @@ public class ReviewResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_result);
 
-        final String placeID = "ChIJ28oUxKZZei4R98SeIRpCSRk";
+        final String placeID = getIntent().getStringExtra("place_id");
 
         buttonBack = findViewById(R.id.button_back);
         buttonForward = findViewById(R.id.button_forward);
