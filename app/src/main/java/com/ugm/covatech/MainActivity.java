@@ -28,6 +28,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,6 +40,7 @@ import android.util.Log;
 import android.view.View;
 
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore db;
     FloatingActionButton scanButton;
+    ImageView buttonNotification;
+    TextView textCartBadge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         textViewKasusSembuh = findViewById(R.id.text_jumlah_sembuh);
         textViewKasusMeninggal = findViewById(R.id.text_jumlah_meninggal);
         scanButton = findViewById(R.id.addFab);
+        textCartBadge = findViewById(R.id.cart_badge);
 
         db = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
@@ -94,6 +99,18 @@ public class MainActivity extends AppCompatActivity {
         getLastLocation();
         getUserProfile();
         volleyGet();
+        setNotification();
+
+        buttonNotification = findViewById(R.id.button_notification);
+
+        buttonNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent nextActivity = new Intent(MainActivity.this, NotificationActivity.class);
+                nextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(nextActivity);
+            }
+        });
 
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -210,11 +227,6 @@ public class MainActivity extends AppCompatActivity {
     // method to check for permissions
     private boolean checkPermissions() {
         return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-
-        // If we want background location
-        // on Android 10.0 and higher,
-        // use:
-        // ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
     }
 
     // method to request for permissions
@@ -305,6 +317,15 @@ public class MainActivity extends AppCompatActivity {
         Intent serviceIntent = new Intent(this, BackgroundTrackerServices.class);
         serviceIntent.putExtra("inputExtra", input);
         ContextCompat.startForegroundService(this, serviceIntent);
+    }
+
+    public void setNotification(){
+        db.collection("users").document(fAuth.getUid()).collection("notification").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                textCartBadge.setText(Integer.toString(task.getResult().size()));
+            }
+        });
     }
 
 
