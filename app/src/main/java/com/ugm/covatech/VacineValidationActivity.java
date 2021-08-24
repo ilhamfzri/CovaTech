@@ -152,7 +152,7 @@ public class VacineValidationActivity extends AppCompatActivity {
                                     final Map<String, Object> dataValidasi = new HashMap<>();
                                     dataValidasi.put("validation_status", true);
                                     dataValidasi.put("document_validity", true);
-                                    DocumentReference documentRefValidation = db.collection("laporan_test").document(sDocumentUID);
+                                    DocumentReference documentRefValidation = db.collection("laporan_vaksin").document(sDocumentUID);
                                     documentRefValidation.set(dataValidasi, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void unused) {
@@ -197,6 +197,7 @@ public class VacineValidationActivity extends AppCompatActivity {
             public void onSuccess(Void unused) {
                 Log.d("LOG", "Data Berhasil di Tolak!");
                 Map<String, Object> dataUpdateNotificationUserRef= new HashMap<>();
+                dataUpdateNotificationUserRef.put("notification_time", Timestamp.now());
                 dataUpdateNotificationUserRef.put("notification_type", "LAPORAN");
                 dataUpdateNotificationUserRef.put("tanggal_laporan", tanggalLaporanNotification);
                 dataUpdateNotificationUserRef.put("jenis_laporan", "Laporan Vaksin");
@@ -248,6 +249,7 @@ public class VacineValidationActivity extends AppCompatActivity {
                     public void onSuccess(Void unused) {
                         Log.d("LOG", "Data Berhasil di Terima!");
                         Map<String, Object> dataUpdateNotificationUserRef= new HashMap<>();
+                        dataUpdateNotificationUserRef.put("notification_time", Timestamp.now());
                         dataUpdateNotificationUserRef.put("notification_type", "LAPORAN");
                         dataUpdateNotificationUserRef.put("tanggal_laporan", tanggalLaporanNotification);
                         dataUpdateNotificationUserRef.put("jenis_laporan", "Laporan Vaksin");
