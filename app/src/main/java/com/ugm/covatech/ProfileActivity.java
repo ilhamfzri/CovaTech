@@ -37,7 +37,7 @@ public class ProfileActivity extends AppCompatActivity {
     FirebaseFirestore db;
     Bitmap bitmap;
     QRGEncoder qrgEncoder;
-    Button buttonAdminValidation;
+    Button buttonAdminValidation, buttonLogout;
 
     CardView cardViewLaporTest, cardViewLaporVaksinasi;
     FloatingActionButton scanButton;
@@ -54,6 +54,18 @@ public class ProfileActivity extends AppCompatActivity {
         cardViewLaporVaksinasi = findViewById(R.id.card_lapor_vaksinasi);
 
         buttonAdminValidation = findViewById(R.id.button_admin);
+        buttonLogout = findViewById(R.id.button_logout);
+
+        buttonLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fAuth.signOut();
+                Intent nextActivity = new Intent(ProfileActivity.this, LoginActivity.class);
+                nextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(nextActivity);
+
+            }
+        });
 
         scanButton = findViewById(R.id.addFab);
 
