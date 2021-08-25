@@ -71,11 +71,13 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton scanButton;
     ImageView buttonNotification;
     TextView textCartBadge;
+    TextView textTopTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        textTopTitle = findViewById(R.id.title_top_bar);
         linearLayoutDataCovidPerProvinsi = findViewById(R.id.linearLayout_data_covid_per_provinsi);
 
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_DENIED){
@@ -324,6 +326,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
                 textCartBadge.setText(Integer.toString(task.getResult().size()));
+            }
+        });
+
+        db.collection("users").document(fAuth.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String name = documentSnapshot.getString("Name");
+                textTopTitle.setText("Halo , "+name+"\nCovatech-19");
             }
         });
     }
