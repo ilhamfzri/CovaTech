@@ -64,7 +64,10 @@ import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.google.maps.android.clustering.Cluster;
+import com.google.maps.android.clustering.ClusterItem;
 import com.google.maps.android.clustering.ClusterManager;
+import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 import com.google.maps.android.heatmaps.HeatmapTileProvider;
 
 import org.jetbrains.annotations.NotNull;
@@ -402,6 +405,7 @@ public class CovaMapsActivity extends AppCompatActivity implements OnMapReadyCal
 
     private void  ClusterLocationInitiation(){
         clusterManager = new ClusterManager<PlaceMapsCluster>(this, mMap);
+        clusterManager.setRenderer(new CustomRenderer<PlaceMapsCluster>(this, mMap, clusterManager));
         mMap.setOnCameraIdleListener(clusterManager);
         mMap.setOnMarkerClickListener(clusterManager);
         mMap.setOnInfoWindowClickListener(clusterManager);
@@ -468,22 +472,37 @@ public class CovaMapsActivity extends AppCompatActivity implements OnMapReadyCal
 
                             PlaceMapsCluster item = new PlaceMapsCluster(geoPoint.getLatitude(), geoPoint.getLongitude(), placeName, placeID, placeAddress, placeRating, placePhotoURL);
                             clusterManager.addItem(item);
+                            clusterManager.cluster();
                         }
                     }
                 }
             }
         });
-//        double lat = 51.5145160;
-//        double lng = -0.1270060;
-//
-//        // Add ten cluster items in close proximity, for purposes of this example.
-//        for (int i = 0; i < 10; i++) {
-//            double offset = i / 60d;
-//            lat = lat + offset;
-//            lng = lng + offset;
-//            PlaceMapsCluster offsetItem = new PlaceMapsCluster(lat, lng, "Title " + i, "Snippet " + i);
-//            clusterManager.addItem(offsetItem);
-//        }
+        double lat = 51.5145160;
+        double lng = -0.1270060;
+
+        // Add ten cluster items in close proximity, for purposes of this example.
+        for (int i = 0; i < 10; i++) {
+            double offset = i / 60d;
+            lat = lat + offset;
+            lng = lng + offset;
+            PlaceMapsCluster offsetItem = new PlaceMapsCluster(lat, lng, "Title " + i, "Snippet " + i, "test", (float) 2.0, "test");
+            clusterManager.addItem(offsetItem);
+        }
+    }
+
+    class CustomRenderer<T extends ClusterItem> extends DefaultClusterRenderer<T>
+    {
+        public CustomRenderer(Context context, GoogleMap map, ClusterManager<T> clusterManager) {
+            super(context, map, clusterManager);
+        }
+
+        @Override
+        protected boolean shouldRenderAsCluster(Cluster<T> cluster) {
+            //start clustering if at least 2 items overlap
+            //Change your logic here
+            return cluster.getSize() > 1;
+        }
     }
 
     public void loadHeatMaps(){
