@@ -350,8 +350,6 @@ public class BackgroundTrackerServices extends Service {
                         String lastDocument = document.getString("last_document_tracking");
                         String lastLocationDocument = document.getString("last_document_location_tracking");
                         String lastPlace = document.getString("last_place_id");
-                        Log.d("TAG", "Geopoint Last Location : " + geoPointLastLocation.toString());
-                        Log.d("TAG", "Last Document" + lastDocument);
 
                         if (geoPointLastLocation == null || TextUtils.isEmpty(lastDocument) || TextUtils.isEmpty(lastLocationDocument) || TextUtils.isEmpty(lastPlace)) {
                             Log.d("TAG", "Geopoint Last Location Not Found!");

@@ -177,44 +177,93 @@ public class ReviewPlaceActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 boolean state = validationAnswer();
-                if(state==true){
+                if (state == true) {
                     mainReview.setVisibility(View.GONE);
                     loadingBox.setVisibility(View.VISIBLE);
 
-                    handler=new Handler();
+                    handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             sendToDatabase();
                         }
-                    },4000);
+                    }, 4000);
                 }
             }
         });
         loadImage();
     }
 
-    public void loadImage(){
-            DocumentReference documentReference = fStore.collection("location").document(sPlaceID);
-            documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            String photo_url = document.getString("place_photo_url");
-                            if(TextUtils.isEmpty(photo_url)){
+    public void loadImage() {
+        DocumentReference documentReference = fStore.collection("location").document(sPlaceID);
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    Log.d("LOG", "Document Exist!");
+                    String photo_url = document.getString("place_photo_url");
+                    if (TextUtils.isEmpty(photo_url)) {
+                        Log.d("LOG", "load from places api !");
+                        Places.initialize(getApplicationContext(), getResources().getString(R.string.api_key));
+                        final PlacesClient placesClient = Places.createClient(ReviewPlaceActivity.this);
+
+                        final List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.PHOTO_METADATAS, Place.Field.LAT_LNG);
+                        final FetchPlaceRequest request = FetchPlaceRequest.builder(sPlaceID, placeFields).build();
+
+                        placesClient.fetchPlace(request).addOnSuccessListener(new OnSuccessListener<FetchPlaceResponse>() {
+                            @Override
+                            public void onSuccess(FetchPlaceResponse fetchPlaceResponse) {
+                                Log.d("Data Places", fetchPlaceResponse.getPlace().toString());
+                                Place placesData = fetchPlaceResponse.getPlace();
+                                final List<PhotoMetadata> metadata = placesData.getPhotoMetadatas();
+                                final PhotoMetadata photoMetadata = metadata.get(0);
+
+                                final FetchPhotoRequest photoRequest = FetchPhotoRequest.builder(photoMetadata).build();
+                                placesClient.fetchPhoto(photoRequest).addOnSuccessListener(new OnSuccessListener<FetchPhotoResponse>() {
+                                    @Override
+                                    public void onSuccess(FetchPhotoResponse fetchPhotoResponse) {
+                                        photoLocation = fetchPhotoResponse.getBitmap();
+                                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                        photoLocation.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                                        StorageReference mStorageRef = storage.getReference();
+                                        StorageReference imageRef = mStorageRef.child("location/" + sPlaceID);
+                                        byte[] b = stream.toByteArray();
+                                        imageRef.putBytes(b).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                            @Override
+                                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                                taskSnapshot.getMetadata().getReference().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                    @Override
+                                                    public void onSuccess(Uri uri) {
+                                                        final Uri downloadUri = uri;
+                                                        final Map<String, Object> dataReview = new HashMap<>();
+                                                        dataReview.put("place_photo_url", downloadUri.toString());
+                                                        DocumentReference documentReference = fStore.collection("location").document(sPlaceID);
+                                                        documentReference.set(dataReview, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void unused) {
+                                                                Glide.with(ReviewPlaceActivity.this).load(downloadUri.toString()).into(imageLocation);
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
 
                             }
-                            else{
-                                Glide.with(ReviewPlaceActivity.this).load(photo_url).into(imageLocation);
+                        });
+                    } else {
+                        Log.d("LOG", "Use cache data!");
+                        Glide.with(ReviewPlaceActivity.this).load(photo_url).into(imageLocation);
 
-                            }
-                        }
                     }
                 }
-            });
-        }
+            }
+        });
+    }
 
     @Override
     public void onBackPressed() {
@@ -223,83 +272,75 @@ public class ReviewPlaceActivity extends AppCompatActivity {
         startActivity(covaTributeActivity);
     }
 
-    public boolean validationAnswer(){
+    public boolean validationAnswer() {
 
         //Check Fasilitas Radio
-        if(rbFasilitasYes.isChecked()==false && rbFasilitasNo.isChecked()==false){
-            Toast.makeText(ReviewPlaceActivity.this, "Lengkapi Data!",Toast.LENGTH_LONG).show();
+        if (rbFasilitasYes.isChecked() == false && rbFasilitasNo.isChecked() == false) {
+            Toast.makeText(ReviewPlaceActivity.this, "Lengkapi Data!", Toast.LENGTH_LONG).show();
             return false;
-        }
-        else{
+        } else {
 
 
-            if(rbFasilitasYes.isChecked()==true){
+            if (rbFasilitasYes.isChecked() == true) {
                 valFasilitasYes = 1;
                 valFasilitasNo = 0;
-            }
-            else{
+            } else {
                 valFasilitasYes = 0;
                 valFasilitasNo = 1;
             }
         }
 
         //Check SocialDistancing Radio
-        if(rbSocialYes.isChecked()==false && rbSocialNo.isChecked()==false){
-            Toast.makeText(ReviewPlaceActivity.this, "Lengkapi Data!",Toast.LENGTH_LONG).show();
+        if (rbSocialYes.isChecked() == false && rbSocialNo.isChecked() == false) {
+            Toast.makeText(ReviewPlaceActivity.this, "Lengkapi Data!", Toast.LENGTH_LONG).show();
             return false;
-        }
-        else{
+        } else {
 
-            if(rbSocialYes.isChecked()==true){
+            if (rbSocialYes.isChecked() == true) {
                 valSocialYes = 1;
                 valSocialNo = 0;
-            }
-            else{
+            } else {
                 valSocialYes = 0;
                 valSocialNo = 1;
             }
         }
 
         //Check Mask Radio
-        if(rbMaskYes.isChecked()==false && rbMaskNo.isChecked()==false){
-            Toast.makeText(ReviewPlaceActivity.this, "Lengkapi Data!",Toast.LENGTH_LONG).show();
+        if (rbMaskYes.isChecked() == false && rbMaskNo.isChecked() == false) {
+            Toast.makeText(ReviewPlaceActivity.this, "Lengkapi Data!", Toast.LENGTH_LONG).show();
             return false;
-        }
-        else{
+        } else {
 
-            if(rbMaskYes.isChecked()==true){
+            if (rbMaskYes.isChecked() == true) {
                 valMaskYes = 1;
                 valMaskNo = 0;
-            }
-            else{
+            } else {
                 valMaskYes = 0;
                 valMaskNo = 1;
             }
         }
 
-        if(mRating.getRating()==0.0){
-            Toast.makeText(ReviewPlaceActivity.this, "Masukan Rating Tempat",Toast.LENGTH_LONG).show();
+        if (mRating.getRating() == 0.0) {
+            Toast.makeText(ReviewPlaceActivity.this, "Masukan Rating Tempat", Toast.LENGTH_LONG).show();
             return false;
-        }
-        else{
+        } else {
             valRating = Math.round(mRating.getRating());
         }
 
-        if(editTextReview.length()<50){
-            Toast.makeText(ReviewPlaceActivity.this, "Ulasan Minimal 50 Karakter",Toast.LENGTH_LONG).show();
+        if (editTextReview.length() < 50) {
+            Toast.makeText(ReviewPlaceActivity.this, "Ulasan Minimal 50 Karakter", Toast.LENGTH_LONG).show();
             return false;
-        }
-        else{
+        } else {
             valUlasan = editTextReview.getText().toString();
         }
 
         Log.d("Info", "Data Tervalidasi");
-        Log.d("Fasilitas Yes :",Integer.toString(valFasilitasYes));
-        Log.d("Fasilitas No :",Integer.toString(valFasilitasNo));
-        Log.d("Social Yes :",Integer.toString(valSocialYes));
-        Log.d("Social No :",Integer.toString(valSocialNo));
-        Log.d("Mask Yes :",Integer.toString(valMaskYes));
-        Log.d("Mask No :",Integer.toString(valMaskNo));
+        Log.d("Fasilitas Yes :", Integer.toString(valFasilitasYes));
+        Log.d("Fasilitas No :", Integer.toString(valFasilitasNo));
+        Log.d("Social Yes :", Integer.toString(valSocialYes));
+        Log.d("Social No :", Integer.toString(valSocialNo));
+        Log.d("Mask Yes :", Integer.toString(valMaskYes));
+        Log.d("Mask No :", Integer.toString(valMaskNo));
         Log.d("Rating Value :", Integer.toString(valRating));
         Log.d("Ulasan :", valUlasan);
         Log.d("Timestamp : ", Long.toString(Timestamp.now().getSeconds()));
@@ -307,7 +348,7 @@ public class ReviewPlaceActivity extends AppCompatActivity {
         return true;
     }
 
-    public void sendToDatabase(){
+    public void sendToDatabase() {
 
         DocumentReference documentReference = fStore.collection("location").document(sPlaceID);
 
@@ -315,9 +356,9 @@ public class ReviewPlaceActivity extends AppCompatActivity {
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    if(document.exists()){
+                    if (document.exists() && document.getDouble("total_star")!=null) {
                         int total_start = document.getDouble("total_star").intValue();
                         int total_user_review = document.getDouble("total_user_review").intValue();
                         int fasilitas_yes = document.getDouble("fasilitas_yes").intValue();
@@ -327,9 +368,8 @@ public class ReviewPlaceActivity extends AppCompatActivity {
                         int mask_yes = document.getDouble("mask_yes").intValue();
                         int mask_no = document.getDouble("mask_no").intValue();
                         write_to_db(total_start, total_user_review, fasilitas_yes, fasilitas_no, social_yes, social_no, mask_yes, mask_no, false);
-                    }
-                    else{
-                        write_to_db(0,0,0,0,0,0,0,0, true);
+                    } else {
+                        write_to_db(0, 0, 0, 0, 0, 0, 0, 0, true);
                     }
                 }
             }
@@ -348,8 +388,8 @@ public class ReviewPlaceActivity extends AppCompatActivity {
         dataReview.put("mask_yes", mask_yes + valMaskYes);
         dataReview.put("mask_no", mask_no + valMaskNo);
 
-        if(state_new_document==true){
-            Places.initialize(getApplicationContext(),getResources().getString(R.string.api_key));
+        if (state_new_document == true) {
+            Places.initialize(getApplicationContext(), getResources().getString(R.string.api_key));
             final PlacesClient placesClient = Places.createClient(this);
 
             final List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.PHOTO_METADATAS, Place.Field.LAT_LNG);
@@ -364,53 +404,21 @@ public class ReviewPlaceActivity extends AppCompatActivity {
                     dataReview.put("place_address", placesData.getAddress());
                     GeoPoint locationGeopoint = new GeoPoint(placesData.getLatLng().latitude, placesData.getLatLng().longitude);
                     dataReview.put("place_location", locationGeopoint);
-
-                    final List<PhotoMetadata> metadata = placesData.getPhotoMetadatas();
-                    final PhotoMetadata photoMetadata = metadata.get(0);
-                    final String attributions = photoMetadata.getAttributions();
-
-                    final FetchPhotoRequest photoRequest = FetchPhotoRequest.builder(photoMetadata).build();
-                    placesClient.fetchPhoto(photoRequest).addOnSuccessListener(new OnSuccessListener<FetchPhotoResponse>() {
-                        @Override
-                        public void onSuccess(FetchPhotoResponse fetchPhotoResponse) {
-                            photoLocation = fetchPhotoResponse.getBitmap();
-                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                            photoLocation.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                            StorageReference mStorageRef = storage.getReference();
-                            StorageReference imageRef = mStorageRef.child("location/" + sPlaceID);
-                            byte[] b = stream.toByteArray();
-                            imageRef.putBytes(b).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                                    taskSnapshot.getMetadata().getReference().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                        @Override
-                                        public void onSuccess(Uri uri) {
-                                            Uri downloadUri = uri;
-                                            dataReview.put("place_photo_url", downloadUri.toString());
-                                            write_to_document(dataReview);
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    });
-
+                    write_to_document(dataReview);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull @NotNull Exception e) {
-                    Log.d("LOG",e.toString());
+                    Log.d("LOG", e.toString());
                 }
             });
-        }
-        else{
+        } else {
             write_to_document(dataReview);
         }
 
     }
 
-    public void write_to_document(Map<String, Object> dataReview ){
+    public void write_to_document(Map<String, Object> dataReview) {
         DocumentReference documentReference = fStore.collection("location").document(sPlaceID);
         documentReference.set(dataReview, SetOptions.merge()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -422,7 +430,7 @@ public class ReviewPlaceActivity extends AppCompatActivity {
                 docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             String userFullName = document.getString("Name");
 
@@ -473,18 +481,7 @@ public class ReviewPlaceActivity extends AppCompatActivity {
                     }
                 });
 
-
             }
         });
-    }
-
-    public static Drawable LoadImageFromWebOperations(String url) {
-        try {
-            InputStream is = (InputStream) new URL(url).getContent();
-            Drawable d = Drawable.createFromStream(is, "src name");
-            return d;
-        } catch (Exception e) {
-            return null;
-        }
     }
 }

@@ -200,7 +200,6 @@ public class CovatraceActivity extends AppCompatActivity {
         Log.d("Start Date", startDate.toString());
         Log.d("End Date", endDate.toString());
 
-
         String userUID = firebaseAuth.getUid();
         db.collection("users").document(userUID).collection("tracking_data").whereLessThan("start_time", endDate).
                 whereGreaterThan("start_time", startDate).orderBy("start_time", Query.Direction.DESCENDING).get().

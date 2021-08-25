@@ -185,7 +185,7 @@ public class Register extends AppCompatActivity {
                             userData.put("Name", vName);
                             userData.put("Email", vEmail);
                             userData.put("VaksinStatus", false);
-                            userData.put("CovidStatus", true);
+                            userData.put("CovidStatus", false);
                             GeoPoint homeGeopoint = new GeoPoint(homeLatitude, homeLongitude);
                             userData.put("home_location", homeGeopoint);
 
