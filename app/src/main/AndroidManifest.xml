@@ -20,7 +20,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustPan|adjustResize">
-        <activity android:name=".ReviewResultActivity"></activity>
+        <activity android:name=".NotificationActivity"></activity>
+        <activity android:name=".VacineValidationActivity" />
+        <activity android:name=".HasilTestValidationActivity" />
+        <activity android:name=".AdminValidationActivity" />
+        <activity android:name=".ReviewResultActivity" />
         <activity android:name=".ReviewListActivity" />
         <activity android:name=".ScannerActivity" />
         <activity android:name=".CovaMapsActivity" />
@@ -89,8 +93,8 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-        <service android:name=".BackgroundTrackerServices" />
 
+        <service android:name=".BackgroundTrackerServices" />
     </application>
 
 </manifest>

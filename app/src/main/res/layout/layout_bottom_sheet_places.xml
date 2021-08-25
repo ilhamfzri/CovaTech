@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottomSheetContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/image_place"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:background="@drawable/ic_tempatkesehatan"
+        android:scaleType="centerCrop"></ImageView>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:id="@+id/namePlace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="Place"
+        android:textColor="#121212"
+        android:textSize="17dp"></androidx.appcompat.widget.AppCompatTextView>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:id="@+id/addressPlace"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:fontFamily="@font/poppins_light"
+        android:maxLines="2"
+        android:text=""
+        android:textColor="#000000"
+        android:textSize="15dp"></androidx.appcompat.widget.AppCompatTextView>
+
+    <me.zhanghai.android.materialratingbar.MaterialRatingBar
+        android:id="@+id/starBar"
+        style="@style/Widget.MaterialRatingBar.RatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_gravity="center"
+        android:isIndicator="true"
+        android:rating="3.5"
+        app:mrb_progressBackgroundTint="#CAC8D0"
+        app:mrb_progressTint="#FABE52"
+        app:mrb_secondaryProgressTint="#CAC8D0" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/ic_button_costum_3"
+        android:drawableTint="@color/whitePlain"
+        android:onClick="setNext"
+        android:text="Lihat Review"
+        android:textColor="@color/whitePlain"></Button>
+
+</LinearLayout>
