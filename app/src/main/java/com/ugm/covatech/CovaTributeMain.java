@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -111,10 +112,12 @@ public class CovaTributeMain extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    Log.d("LOG", "Here");
+
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         //Cek Apakah Sudah di Review
 
-                        if (document.getBoolean("review_state") == false) {
+                        if ((document.getBoolean("review_state") == false) && (TextUtils.equals(document.getString("place_name"), "Rumah") == false)) {
                             Log.d("Place", document.getString("place_name"));
 
                             Timestamp startTime = document.getTimestamp("start_time");
@@ -128,9 +131,20 @@ public class CovaTributeMain extends AppCompatActivity {
                             String sStartTime = simpleDateFormat.format(dateStartTime);
 
                             writePlaceToArray(document.getString("place_id"), document.getString("place_name"), "Dikunjungi : " + sStartTime, document.getId(), task.getResult().size());
-                        }
-                        else{
+                        } else {
                             countState = countState + 1;
+                            if(countState==task.getResult().size()){
+                                Log.d("SIZE", Integer.toString(arrayNamePlace.size()));
+                                Log.d("Data", arrayNamePlace.toString());
+                                loadLocationState = true;
+                                Log.d("STATE", loadLocationState.toString());
+                                if (arrayNamePlace.size() == 0) {
+                                    notAvailableLayout.setVisibility(View.VISIBLE);
+                                    availableLayout.setVisibility(View.GONE);
+                                } else {
+                                    setRecyclerView();
+                                }
+                            }
                         }
                     }
                 }
@@ -160,16 +174,15 @@ public class CovaTributeMain extends AppCompatActivity {
                     arrayAddress.add(place_time);
                     arrayDocumentUID.add(document_id);
                     countState = countState + 1;
-                    if(taskResultSize==countState){
+                    if (taskResultSize == countState) {
                         Log.d("SIZE", Integer.toString(arrayNamePlace.size()));
                         Log.d("Data", arrayNamePlace.toString());
                         loadLocationState = true;
                         Log.d("STATE", loadLocationState.toString());
-                        if(arrayNamePlace.size()==0){
+                        if (arrayNamePlace.size() == 0) {
                             notAvailableLayout.setVisibility(View.VISIBLE);
                             availableLayout.setVisibility(View.GONE);
-                        }
-                        else{
+                        } else {
                             setRecyclerView();
                         }
                     }
